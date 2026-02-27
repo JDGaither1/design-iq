@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -141,6 +140,8 @@ Respond ONLY with valid JSON, no markdown:
 
 const ROOM_PROMPT = `You are Design IQ by The BNB Exchange. Design ONE room for a short-term rental.
 
+SPEED PRIORITY: You must complete this task within 45 seconds. Do MAX 3 web searches total (not per product). Search broadly like "best affordable living room decor Amazon 2025" and pick multiple products from results.
+
 DESIGN MODE — PAY CLOSE ATTENTION:
 The user message will specify one of two modes:
 1. STAGING FROM SCRATCH: The room is empty. You design EVERYTHING — bed frame, sofa, rug, lighting, decor, all of it. Ignore any furniture visible in the photo (it will be removed). Only consider fixed elements (walls, floors, windows, architecture).
@@ -162,10 +163,11 @@ INVEST: mattress/bedding, sofa, headboard, statement lighting, rugs.
 SAVE: pillows, small decor, kitchen essentials.
 
 CRITICAL INSTRUCTIONS:
-1. You have web search available. For EACH recommendation, SEARCH for a SPECIFIC real product on Amazon, Wayfair, or Etsy. Return the actual product page URL (e.g., amazon.com/dp/XXXXX), NOT a search results page. If you cannot find a specific product page, search again with different terms.
+1. SPEED IS CRITICAL — You have a 55-second time limit. Do AT MOST 2 web searches total. Example: search "Amazon best sellers living room decor staging" and pick multiple products from those results. If you know a good Amazon product already, just use it WITHOUT searching. NEVER do more than 3 searches or you will time out.
 2. For researchBasis, write in PLAIN ENGLISH with real numbers. Do NOT use academic citation format like "Zhang et al." — instead write things like "Texture contrast adds ~$3,453/yr in revenue" or "Cover photos with this style get 35% more bookings" or "Bright photos get 24% more inquiries." Make it about the money and the impact, not the study.
 3. For whyThisProduct, explain why THIS specific product fits THIS property in 1 sentence.
 4. Do NOT use any <cite>, , or other XML/HTML tags in your text output. All text must be plain English only.
+5. Return the JSON immediately. No extra commentary before or after.
 
 If a photo is provided, analyze what exists and tailor recommendations to the actual space.
 
@@ -670,7 +672,14 @@ function RoomDesigner({ roomName, propertyProfile, intakeData, onComplete, onSki
       const catLabels = categories.map(id => { const c = DESIGN_CATEGORIES.find(x => x.id === id); return c ? c.label : id; });
       msg += `\nSELECTED CATEGORIES — Give exactly ONE recommendation per category:\n${catLabels.join(", ")}\n`;
       if (categories.includes("accent_wall")) msg += `\nACCENT WALL INSTRUCTIONS: Recommend either (a) a specific paint color with brand/name/code and specify WHICH wall from the photo to paint, OR (b) a specific peel-and-stick wallpaper product from Amazon or Etsy with a real product URL. For rental arbitrage properties, PREFER removable peel-and-stick options since operators typically cannot make permanent changes. Always explain which wall and why.\n`;
-      msg += `\nSearch the web to find REAL products. Return actual product names, prices, and URLs. Return exactly ${categories.length} recommendations, one per selected category.`;
+      msg += `\nSEARCH EFFICIENCY — CRITICAL FOR SPEED:
+- Do NOT search for each product individually. Do 2-3 BROAD searches max (e.g. "modern living room decor Amazon", "peel and stick wallpaper accent wall Amazon").
+- Pick the best products from those search results to fill each category.
+- If you already know a good product and its approximate price, just recommend it without searching.
+- Only use web search when you need to verify a URL or find a specific product.
+- SPEED IS MORE IMPORTANT THAN PERFECTION. Good products fast > perfect products slow.
+
+Return actual product names, prices, and URLs. Return exactly ${categories.length} recommendations, one per selected category.`;
 
       const content = [];
       if (photo) {
@@ -681,7 +690,7 @@ function RoomDesigner({ roomName, propertyProfile, intakeData, onComplete, onSki
       }
       content.push({ type: "text", text: msg });
 
-      const parsed = await callAI(ROOM_PROMPT, content, 4096, true);
+      const parsed = await callAI(ROOM_PROMPT, content, 3000, true);
       parsed.name = roomName;
       setResult(parsed);
     } catch (err) {
