@@ -10,20 +10,6 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Instrument Sans', 'DM Sans', system-ui, sans-serif; background-color: #f5f3ef; background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(139,115,85,0.07) 39px, rgba(139,115,85,0.07) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(139,115,85,0.07) 39px, rgba(139,115,85,0.07) 40px), repeating-linear-gradient(0deg, transparent, transparent 199px, rgba(139,115,85,0.12) 199px, rgba(139,115,85,0.12) 200px), repeating-linear-gradient(90deg, transparent, transparent 199px, rgba(139,115,85,0.12) 199px, rgba(139,115,85,0.12) 200px); }
-    .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
-    .orb-1 { top: 60px; right: 0; width: 400px; height: 400px; background: radial-gradient(circle, rgba(217,119,6,0.08) 0%, rgba(217,119,6,0.03) 40%, transparent 70%); }
-    .orb-2 { top: 350px; left: -50px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, rgba(124,58,237,0.02) 40%, transparent 70%); }
-    .orb-3 { bottom: 0; right: 100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(217,119,6,0.06) 0%, rgba(217,119,6,0.02) 40%, transparent 70%); }
-    .orb-4 { bottom: 100px; left: 200px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(5,150,105,0.04) 0%, rgba(5,150,105,0.01) 40%, transparent 70%); }
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      background-size: 256px 256px;
-      pointer-events: none;
-      z-index: 9999;
-    }
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
@@ -75,10 +61,6 @@
   </style>
 </head>
 <body>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
   <div id="root"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
@@ -164,6 +146,10 @@ LIVING ROOM (P1): This is the COVER PHOTO room — it must be the most visually 
 BEDROOM (P2): White bedding always, BUT add visual drama through the headboard wall — accent wallpaper, bold paint, or a statement headboard. Symmetrical nightstands with matching lamps. Layer textures: linen, knit throw, velvet or patterned accent pillows in the palette accent color. Blackout curtains that puddle slightly.
 KITCHEN (P3): Max 3-4 counter items but make them PHOTOGENIC — a wooden cutting board, a matte black coffee maker, a small herb plant. Under-cabinet lighting is non-negotiable. Upgrade hardware to something with personality (brass, matte black, leather pulls). One styled moment — a cookbook display, a patterned backsplash, or open shelving with curated items.
 BATHROOM (P4): White towels always, but style them like a spa — rolled, stacked, or on a wooden ladder shelf. A statement mirror instead of a basic medicine cabinet. One luxury touch that photographs well — a rainfall showerhead, an interesting soap dispenser, a wooden bath tray, or a small stool with a plant.
+GAME ROOM / REC ROOM: This is your VIRAL ROOM — the one guests photograph and tag on Instagram. LED or neon accent lighting is non-negotiable (neon signs, LED strips behind shelving, color-changing bulbs). Wall art should be themed and bold — vintage game posters, neon signs, custom prints, or a gallery wall. Furniture means comfortable seating (sectional, bean bags, bar stools) oriented around the entertainment. Shelving for board games, organized and photogenic. If there's a bar area, style it with personality — bottles as decor, interesting glassware, a chalkboard menu. The accent wall should be DRAMATIC — dark paint, bold wallpaper, or a feature wall with wood slats. This room should have a distinct VIBE that's different from the rest of the property — moody, fun, or themed.
+OFFICE / WORKSPACE: Clean, minimal, professional. Good task lighting (desk lamp). Floating shelves with curated objects. A plant. Artwork that's sophisticated but not distracting. The goal is a photo that says "you could actually work here" — not a closet with a folding table.
+DINING AREA: A statement light fixture over the table is the hero move. Table should be set or partially styled — a simple centerpiece, cloth napkins, or a runner. Wall art or a mirror behind the table creates depth for photos.
+OUTDOOR / PATIO: String lights are the #1 photographable element. Weather-resistant but stylish furniture. An outdoor rug grounds the space. Plants and greenery frame the area. One comfort element — outdoor pillows, a throw, or a fire pit.
 
 VISUAL BOLDNESS PRINCIPLE:
 Do NOT recommend generic, safe, forgettable products. Every room needs at least ONE item that would make someone stop scrolling through Airbnb listings. This could be:
@@ -410,20 +396,34 @@ const ROOM_DEFAULTS = {
   "Bedroom": ["accent_wall", "bedding", "lighting", "curtains", "wall_art"],
   "Kitchen": ["accent_wall", "lighting", "hardware", "countertop", "wall_art"],
   "Bathroom": ["accent_wall", "towels_bath", "mirrors", "hardware", "shelving"],
+  "Game Room": ["accent_wall", "lighting", "wall_art", "furniture", "shelving", "rug"],
+  "Office": ["lighting", "wall_art", "shelving", "plants", "rug"],
+  "Dining": ["lighting", "wall_art", "rug", "curtains", "plants"],
+  "Outdoor": ["lighting", "furniture", "plants", "rug"],
 };
 const getRoomDefaults = (roomName) => {
-  if (roomName.includes("Bedroom")) return ROOM_DEFAULTS["Bedroom"] || ROOM_DEFAULTS["Primary Bedroom"];
-  if (roomName.includes("Bathroom")) return ROOM_DEFAULTS["Bathroom"];
-  if (roomName.includes("Kitchen")) return ROOM_DEFAULTS["Kitchen"];
-  if (roomName.includes("Living")) return ROOM_DEFAULTS["Living Room"];
+  const lower = roomName.toLowerCase();
+  if (lower.includes("bedroom")) return ROOM_DEFAULTS["Bedroom"] || ROOM_DEFAULTS["Primary Bedroom"];
+  if (lower.includes("bathroom")) return ROOM_DEFAULTS["Bathroom"];
+  if (lower.includes("kitchen")) return ROOM_DEFAULTS["Kitchen"];
+  if (lower.includes("living")) return ROOM_DEFAULTS["Living Room"];
+  if (lower.includes("game") || lower.includes("rec") || lower.includes("entertainment") || lower.includes("play")) return ROOM_DEFAULTS["Game Room"];
+  if (lower.includes("office") || lower.includes("work") || lower.includes("study")) return ROOM_DEFAULTS["Office"];
+  if (lower.includes("dining")) return ROOM_DEFAULTS["Dining"];
+  if (lower.includes("patio") || lower.includes("outdoor") || lower.includes("deck") || lower.includes("porch")) return ROOM_DEFAULTS["Outdoor"];
   return ROOM_DEFAULTS["Living Room"];
 };
 const getRoomCategories = (roomName) => {
   const hide = [];
-  if (roomName.includes("Kitchen")) hide.push("bedding", "throw_pillows", "rug");
-  if (roomName.includes("Bathroom")) hide.push("bedding", "throw_pillows", "rug", "curtains", "furniture", "countertop");
-  if (roomName.includes("Living")) hide.push("bedding", "towels_bath", "hardware", "countertop");
-  if (roomName.includes("Bedroom")) hide.push("towels_bath", "hardware", "countertop");
+  const lower = roomName.toLowerCase();
+  if (lower.includes("kitchen")) hide.push("bedding", "throw_pillows", "rug");
+  if (lower.includes("bathroom")) hide.push("bedding", "throw_pillows", "rug", "curtains", "furniture", "countertop");
+  if (lower.includes("living")) hide.push("bedding", "towels_bath", "hardware", "countertop");
+  if (lower.includes("bedroom")) hide.push("towels_bath", "hardware", "countertop");
+  if (lower.includes("game") || lower.includes("rec") || lower.includes("entertainment") || lower.includes("play")) hide.push("bedding", "towels_bath", "hardware", "countertop", "curtains");
+  if (lower.includes("office") || lower.includes("work") || lower.includes("study")) hide.push("bedding", "towels_bath", "hardware", "countertop", "throw_pillows");
+  if (lower.includes("dining")) hide.push("bedding", "towels_bath", "hardware", "countertop", "throw_pillows", "shelving");
+  if (lower.includes("patio") || lower.includes("outdoor") || lower.includes("deck") || lower.includes("porch")) hide.push("bedding", "towels_bath", "hardware", "countertop", "curtains", "accent_wall", "mirrors");
   return DESIGN_CATEGORIES.filter(c => !hide.includes(c.id));
 };
 
@@ -899,6 +899,32 @@ function RoomDesigner({ roomName, propertyProfile, intakeData, onComplete, onSki
 - QUALITY SHOWER CURTAIN: Clean, pressed, in white or a subtle pattern. No liner visible.
 - WARM LIGHTING: Soft warm light, no harsh fluorescent. Makes the space feel spa-like.
 - ONE LUXURY TOUCH: A wooden bath tray, eucalyptus bunch, or premium soap. Signals elevated experience.`;
+      } else if (roomLower.includes("game") || roomLower.includes("rec") || roomLower.includes("entertainment") || roomLower.includes("play")) {
+        researchRules = `RULES FOR GAME ROOM / REC ROOM — THIS IS THE VIRAL ROOM:
+- MOOD LIGHTING IS EVERYTHING: LED strips, neon signs, color-changing bulbs, backlit shelving. This room should glow in photos.
+- BOLD ACCENT WALL: Dark paint, dramatic wallpaper, or a feature wall. This room should feel different from the rest of the property.
+- THEMED WALL ART: Vintage game posters, neon signs, bold prints. Not generic — it should tell a story.
+- SEATING FOR GROUPS: Comfortable, oriented around entertainment. Think sectional, bar stools, bean bags.
+- ORGANIZED FUN: Board games, cards, etc. displayed on shelves — photogenic and inviting, not messy.
+- ONE SIGNATURE PIECE: A neon sign, a dramatic light fixture, a bar cart, or a display piece that anchors the room's identity.`;
+      } else if (roomLower.includes("office") || roomLower.includes("work") || roomLower.includes("study")) {
+        researchRules = `RULES FOR OFFICE / WORKSPACE:
+- CLEAN DESK with good task lighting. The photo should say "you could work a full day here."
+- FLOATING SHELVES with curated objects — a plant, books, one interesting piece.
+- GOOD CHAIR visible — signals the host cares about the work experience.
+- WARM but focused lighting — desk lamp + ambient, not harsh overhead.`;
+      } else if (roomLower.includes("dining")) {
+        researchRules = `RULES FOR DINING AREA:
+- STATEMENT LIGHT FIXTURE over the table — this is the hero move for dining photos.
+- TABLE STYLED but not overdone — a simple centerpiece, runner, or cloth napkins.
+- WALL BEHIND TABLE should have depth — mirror, art, or shelving.
+- CHAIRS should have personality — not just folding chairs.`;
+      } else if (roomLower.includes("patio") || roomLower.includes("outdoor") || roomLower.includes("deck") || roomLower.includes("porch")) {
+        researchRules = `RULES FOR OUTDOOR SPACE:
+- STRING LIGHTS are the #1 most photographable outdoor element. Non-negotiable.
+- OUTDOOR RUG grounds the seating area and makes it feel like a room.
+- PLANTS AND GREENERY frame the space and add life.
+- ONE COMFORT ELEMENT — outdoor pillows, a throw, a fire pit — signals "you'll want to hang out here."`;
       } else {
         researchRules = `RESEARCH-BACKED RULES:
 - FIGURE-GROUND CONTRAST between furniture and walls (~$3,453/yr revenue impact)
@@ -1235,7 +1261,7 @@ Return actual product names, prices, and URLs (or empty strings). Return at leas
           />
 
         <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
-          <Btn primary onClick={() => onComplete(result)}>✓ Save & Next Room</Btn>
+          <Btn primary onClick={() => onComplete(result)}>✓ Save Room Design</Btn>
           <Btn onClick={() => { setResult(null); }}>🔄 Redo</Btn>
         </div>
       </div>
@@ -1561,30 +1587,65 @@ function DesignerFlow({ onSendToBuilder, onBack }) {
           </div>
 
           <div className="card-inner" style={{ padding: 18, marginBottom: 14 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 700, margin: "0 0 4px" }}>Design Your Rooms</h3>
-            <p style={{ fontSize: 14, color: "#6b7280", margin: "0 0 14px", lineHeight: 1.5 }}>Now design each room one at a time. Your property profile and color palette above will guide every room's recommendations. Upload a photo of each room so the AI can see your actual space.</p>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+              <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0 }}>Design Your Rooms</h3>
+              <span style={{ fontSize: 13, fontWeight: 600, color: designedRooms.length === roomQueue.length ? "#059669" : "#d97706" }}>
+                {designedRooms.length} of {roomQueue.length} done
+              </span>
+            </div>
+            <div style={{ height: 4, borderRadius: 2, background: "rgba(0,0,0,0.06)", marginBottom: 12, overflow: "hidden" }}>
+              <div style={{ height: "100%", borderRadius: 2, background: designedRooms.length === roomQueue.length ? "linear-gradient(90deg, #059669, #047857)" : "linear-gradient(90deg, #e8a307, #d97706)", width: roomQueue.length > 0 ? `${(designedRooms.length / roomQueue.length) * 100}%` : "0%", transition: "width 0.5s ease-out" }} />
+            </div>
+            <p style={{ fontSize: 14, color: "#6b7280", margin: "0 0 14px", lineHeight: 1.5 }}>
+              {designedRooms.length === 0
+                ? "Tap a room to start designing. Upload a photo of each room so the AI can see your actual space."
+                : designedRooms.length < roomQueue.length
+                  ? "Keep going! Tap any room below to design it."
+                  : "All rooms designed! Review any room or send everything to your Budget Builder below."
+              }
+            </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {roomQueue.map(name => {
+              {roomQueue.map((name, idx) => {
                 const done = designedRooms.find(r => r.name === name);
+                const isFirst = idx === 0 && designedRooms.length === 0;
                 return (
                   <button key={name} onClick={() => { setCurrentRoom(name); setPhase("room-design"); }}
-                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px", background: done ? "linear-gradient(145deg, #f0fdf4, #ecfce8)" : "linear-gradient(145deg, #ffffff, #fefdfb)", border: done ? "1px solid rgba(34,197,94,0.2)" : "1px solid rgba(0,0,0,0.06)", borderRadius: 12, cursor: "pointer", fontFamily: fonts, textAlign: "left", boxShadow: "0 1px 3px rgba(0,0,0,0.03)", transition: "all 0.2s" }}>
-                    <span style={{ fontSize: 15, fontWeight: 600 }}>{name}</span>
+                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px", background: done ? "linear-gradient(145deg, #f0fdf4, #ecfce8)" : isFirst ? "linear-gradient(145deg, #fffbeb, #fef3c7)" : "linear-gradient(145deg, #ffffff, #fefdfb)", border: done ? "1px solid rgba(34,197,94,0.2)" : isFirst ? "1px solid rgba(217,119,6,0.2)" : "1px solid rgba(0,0,0,0.06)", borderRadius: 12, cursor: "pointer", fontFamily: fonts, textAlign: "left", boxShadow: isFirst && !done ? "0 2px 8px rgba(217,119,6,0.08)" : "0 1px 3px rgba(0,0,0,0.03)", transition: "all 0.2s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ fontSize: 15, fontWeight: 600 }}>{name}</span>
+                      {isFirst && <span style={{ fontSize: 10, fontWeight: 700, color: "#d97706", background: "rgba(217,119,6,0.1)", padding: "2px 8px", borderRadius: 6, textTransform: "uppercase", letterSpacing: "0.05em" }}>Start here</span>}
+                    </div>
                     {done ? <span style={{ fontSize: 13, fontWeight: 600, color: "#059669" }}>✓ Designed</span>
                       : <span style={{ fontSize: 13, color: "#d97706", fontWeight: 600 }}>Design →</span>}
                   </button>
                 );
               })}
             </div>
-            <div style={{ marginTop: 10, display: "flex", gap: 6 }}>
-              <Input value={customInput} onChange={setCustomInput} placeholder="Add custom room (Office, Patio...)" style={{ flex: 1 }} />
-              <Btn small onClick={() => { if (customInput.trim()) { setRoomQueue(p => [...p, customInput.trim()]); setCustomInput(""); } }} disabled={!customInput.trim()}>+</Btn>
+            <div style={{ marginTop: 10 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#6b7280", marginBottom: 6 }}>Add a room:</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 8 }}>
+                {["Game Room", "Dining Room", "Office", "Patio / Outdoor", "Laundry Room"].filter(r => !roomQueue.includes(r)).map(name => (
+                  <button key={name} onClick={() => setRoomQueue(p => [...p, name])} style={{
+                    padding: "8px 14px", fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: fonts,
+                    background: "linear-gradient(145deg, #ffffff, #fefdfb)", border: "1px solid rgba(0,0,0,0.08)",
+                    borderRadius: 10, boxShadow: "0 1px 3px rgba(0,0,0,0.03)", transition: "all 0.15s",
+                  }}>+ {name}</button>
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: 6 }}>
+                <Input value={customInput} onChange={setCustomInput} placeholder="Or type a custom room name..." style={{ flex: 1 }} />
+                <Btn small onClick={() => { if (customInput.trim()) { setRoomQueue(p => [...p, customInput.trim()]); setCustomInput(""); } }} disabled={!customInput.trim()}>+</Btn>
+              </div>
             </div>
           </div>
 
           {designedRooms.length > 0 && (
-            <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
-              <Btn primary onClick={() => onSendToBuilder(intakeData, profile, designedRooms)} style={{ background: "linear-gradient(135deg, #059669, #047857)" }}>
+            <div className="card-inner" style={{ padding: 18, marginBottom: 14, background: "linear-gradient(145deg, #f0fdf4, #ecfce8)", border: "1px solid rgba(5,150,105,0.15)" }}>
+              <h4 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 4px", color: "#065f46" }}>Ready to track your purchases?</h4>
+              <p style={{ fontSize: 13, color: "#047857", margin: "0 0 12px", lineHeight: 1.5 }}>
+                The Budget Builder turns your AI recommendations into a shopping tracker — edit items, track what you've ordered, and see your total spend per room.
+              </p>
+              <Btn primary onClick={() => onSendToBuilder(intakeData, profile, designedRooms)} style={{ background: "linear-gradient(135deg, #059669, #047857)", width: "100%" }}>
                 📥 Send {designedRooms.length} Room{designedRooms.length > 1 ? "s" : ""} to Budget Builder
               </Btn>
             </div>
@@ -1689,6 +1750,12 @@ function BudgetBuilder({ initialProject, onBack }) {
 
           {showSettings && adminUnlocked && <div style={{ background: "#f9fafb", borderRadius: 10, padding: 14, border: "1px solid #e5e7eb", marginBottom: 14 }}><Label>Amazon Tag</Label><Input value={amazonTag} onChange={setAmazonTag} placeholder="your-tag-20" /></div>}
 
+          <div style={{ background: "linear-gradient(145deg, #fffbeb, #fef3c7)", borderRadius: 12, padding: "12px 16px", border: "1px solid rgba(217,119,6,0.1)", marginBottom: 14 }}>
+            <p style={{ fontSize: 13, color: "#92400e", margin: 0, lineHeight: 1.6 }}>
+              <strong>Your shopping tracker.</strong> Each room has the AI-recommended products with links. Tap the <strong style={{ background: "#f3f4f6", padding: "1px 6px", borderRadius: 6 }}>planned ▸</strong> badge on any item to track its status as you order and receive it. Export everything as a CSV when you're ready.
+            </p>
+          </div>
+
           <div style={{ background: "linear-gradient(135deg, #0f1117 0%, #1a1d2b 40%, #1e1b2e 70%, #171420 100%)", borderRadius: 14, padding: 16, marginBottom: 14, color: "#fff", textAlign: "center" }}>
             <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#94a3b8" }}>Total Staging Budget</div>
             <div style={{ fontSize: 26, fontWeight: 700, fontFamily: displayFont, color: "#fbbf24" }}>{fmt(projectTotal)}</div>
@@ -1726,7 +1793,7 @@ function BudgetBuilder({ initialProject, onBack }) {
                           <div style={{ display: "flex", alignItems: "center", gap: 2 }}><span style={{ fontSize: 12, color: "#6b7280" }}>Qty:</span><input type="number" value={item.quantity} onChange={e => updateItem(room.id, item.id, "quantity", parseInt(e.target.value)||1)} min={1} style={{ width: 40, padding: "3px 4px", fontSize: 14, border: "1px solid #e5e7eb", borderRadius: 4, textAlign: "center", outline: "none" }} /></div>
                           <div style={{ display: "flex", alignItems: "center", gap: 2 }}><span style={{ fontSize: 12, color: "#6b7280" }}>$</span><input value={(item.price/100).toFixed(2)} onChange={e => updateItem(room.id, item.id, "price", parseCents(e.target.value))} style={{ width: 60, padding: "3px 4px", fontSize: 14, border: "1px solid #e5e7eb", borderRadius: 4, textAlign: "right", outline: "none" }} /></div>
                           <span style={{ fontSize: 13, fontWeight: 600, color: "#059669" }}>{fmt(item.quantity*item.price)}</span>
-                          <button onClick={() => cycleStatus(room.id, item.id)} style={{ fontSize: 12, fontWeight: 600, color: sc.text, background: sc.bg, padding: "2px 8px", borderRadius: 10, border: "none", cursor: "pointer", textTransform: "capitalize" }}>{item.status}</button>
+                          <button onClick={() => cycleStatus(room.id, item.id)} title="Tap to update status" style={{ fontSize: 12, fontWeight: 600, color: sc.text, background: sc.bg, padding: "2px 10px", borderRadius: 10, border: `1px dashed ${sc.text}40`, cursor: "pointer", textTransform: "capitalize", display: "inline-flex", alignItems: "center", gap: 3 }}>{item.status} <span style={{ fontSize: 9, opacity: 0.6 }}>▸</span></button>
                           <a href={getClickUrl(item)} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, fontWeight: 600, color: "#fff", background: (RETAILERS[item.vendor] || RETAILERS.amazon).color, padding: "3px 10px", borderRadius: 6, textDecoration: "none", whiteSpace: "nowrap" }}>{item.isSearchLink || !item.url || !isRealUrl(item.url) ? "Search" : "View"} ↗</a>
                           <button onClick={() => removeItem(room.id, item.id)} style={{ fontSize: 12, color: "#dc2626", background: "none", border: "none", cursor: "pointer", marginLeft: "auto" }}>✕</button>
                         </div>
@@ -1795,6 +1862,10 @@ function DesignIQ() {
     <div style={{ minHeight: "100vh", background: "transparent", fontFamily: fonts }}>
       <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet" />
       <style>{`@keyframes spin{to{transform:rotate(360deg)}} *{box-sizing:border-box}`}</style>
+
+      <div style={{ padding: "6px 16px", background: "rgba(0,0,0,0.03)", borderBottom: "1px solid rgba(0,0,0,0.04)", textAlign: "center" }}>
+        <p style={{ fontSize: 11, color: "#9ca3af", margin: 0, lineHeight: 1.4 }}>This tool is powered by AI. Responses are generated by Claude and should be reviewed before making business decisions.</p>
+      </div>
 
       <div className="header-premium" style={{ padding: "28px 20px 22px", textAlign: "center", position: "relative" }}>
         <h1 onClick={() => { const n = adminTaps + 1; setAdminTaps(n); if (n >= 5) setAdminTaps(0); }}
