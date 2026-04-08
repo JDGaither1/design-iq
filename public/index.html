@@ -10,20 +10,6 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Instrument Sans', 'DM Sans', system-ui, sans-serif; background-color: #f5f3ef; background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(139,115,85,0.07) 39px, rgba(139,115,85,0.07) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(139,115,85,0.07) 39px, rgba(139,115,85,0.07) 40px), repeating-linear-gradient(0deg, transparent, transparent 199px, rgba(139,115,85,0.12) 199px, rgba(139,115,85,0.12) 200px), repeating-linear-gradient(90deg, transparent, transparent 199px, rgba(139,115,85,0.12) 199px, rgba(139,115,85,0.12) 200px); }
-    .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
-    .orb-1 { top: 60px; right: 0; width: 400px; height: 400px; background: radial-gradient(circle, rgba(217,119,6,0.15) 0%, rgba(217,119,6,0.05) 40%, transparent 70%); }
-    .orb-2 { top: 350px; left: -50px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, rgba(124,58,237,0.04) 40%, transparent 70%); }
-    .orb-3 { bottom: 0; right: 100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(217,119,6,0.12) 0%, rgba(217,119,6,0.04) 40%, transparent 70%); }
-    .orb-4 { bottom: 100px; left: 200px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(5,150,105,0.08) 0%, rgba(5,150,105,0.02) 40%, transparent 70%); }
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      background-size: 256px 256px;
-      pointer-events: none;
-      z-index: 9999;
-    }
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
@@ -75,10 +61,6 @@
   </style>
 </head>
 <body>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
   <div id="root"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
@@ -114,6 +96,9 @@ const RESEARCH_FACTS = [
 // ─── SYSTEM PROMPTS ───
 const PROFILE_PROMPT = `You are Design IQ by The BNB Exchange. Generate a property design profile.
 
+DESIGN PHILOSOPHY — THE SCROLL-STOPPER PRINCIPLE:
+In a market with thousands of STR listings, "clean and tasteful" is the MINIMUM — it's not a competitive advantage. Every property needs at least one SIGNATURE DESIGN MOMENT that makes someone stop mid-scroll, screenshot the listing, and show their friends. This could be a dramatic accent wall, a bold piece of furniture, an unexpected color choice, a statement light fixture, or a curated vignette that tells a story. Your job is not to create a "nice" space — it's to create a MEMORABLE one that photographs like a boutique hotel and drives bookings.
+
 STYLE MAPPING (follows market + guest, NOT personal preference):
 - Urban core, business → Modern Minimal
 - Near university/hospital, mid-term → Modern Comfortable
@@ -124,23 +109,27 @@ STYLE MAPPING (follows market + guest, NOT personal preference):
 NEVER default to "farmhouse."
 
 COLOR SYSTEM (60-30-10):
-- Modern Minimal: White/Light Gray + Warm Wood & Charcoal + Black/Brass/Saturated
-- Modern Comfortable: Warm White/Greige + Sage/Dusty Blue & Wood + Terracotta/Mustard/Teal
-- Warm Contemporary: Soft White + Warm Taupes & Neutrals + Gold/Rust/Forest Green
-- Modern Rustic: Warm White/Cream + Natural Wood & Stone Gray + Iron Black/Leather/Deep Green
-- Coastal Modern: Bright White + Sand/Light Wood/Pale Blue + Navy/Coral/Jute
-- Elevated Modern: Off-White/Warm Gray + Rich Neutrals + Brass/Marble/Jewel Tone
+- Modern Minimal: White/Light Gray + Warm Wood & Charcoal + Black/Brass/Burnt Orange/Deep Ochre/Saturated Blue
+- Modern Comfortable: Warm White/Greige + Sage/Dusty Blue & Wood + Terracotta/Mustard/Teal/Rust/Warm Coral/Ochre/Plum/Burnt Sienna
+- Warm Contemporary: Soft White + Warm Taupes & Neutrals + Gold/Rust/Forest Green/Burgundy/Amber/Copper/Deep Olive
+- Modern Rustic: Warm White/Cream + Natural Wood & Stone Gray + Iron Black/Leather Brown/Deep Green/Rust/Burnt Orange/Slate Blue
+- Coastal Modern: Bright White + Sand/Light Wood/Pale Blue + Navy/Coral/Jute/Seafoam/Terracotta/Warm Gold/Driftwood
+- Elevated Modern: Off-White/Warm Gray + Rich Neutrals + Brass/Marble/Emerald/Sapphire/Plum/Oxblood/Deep Teal
+VARIETY RULE: Do NOT default to the same accent color every time. Vary your picks across the full range of options for each style. Consider the property's specific context — neighborhood, architecture, light level, guest type — to pick an accent that feels unique to THIS property. If the user hasn't specified a preference, surprise them with something unexpected but cohesive.
+BOLDNESS RULE: The accent color should be SATURATED and CONFIDENT, not a muted pastel. A rust accent should be a REAL rust, not a dusty peach. An emerald should be a DEEP emerald, not sage. The 10% accent is your chance to create visual drama — don't waste it on something safe.
 Rules: Never monochrome beige. Always one saturated accent. Warm LED only (2700K-3000K).
 
 IMPORTANT: If user provides color preferences or existing items, INCORPORATE them into the palette.
 Do NOT use any <cite>, , or other XML/HTML tags in your text. All text must be plain English only.
 
+In the designNotes field, name the SIGNATURE MOMENT you recommend for this property — the one design element that will make the listing unforgettable.
+
 Respond ONLY with valid JSON, no markdown:
-{"style":"Name","styleRationale":"2 sentences","colorPalette":{"base":{"name":"N","hex":"#hex","paintCode":"Code","role":"60%"},"secondary":{"name":"N","hex":"#hex","paintCode":"Code","role":"30%"},"accent":{"name":"N","hex":"#hex","paintCode":"Code","role":"10%"},"neutral":{"name":"N","hex":"#hex","role":"Support"}},"designNotes":"1 sentence"}`;
+{"style":"Name","styleRationale":"2 sentences","colorPalette":{"base":{"name":"N","hex":"#hex","paintCode":"Code","role":"60%"},"secondary":{"name":"N","hex":"#hex","paintCode":"Code","role":"30%"},"accent":{"name":"N","hex":"#hex","paintCode":"Code","role":"10%"},"neutral":{"name":"N","hex":"#hex","role":"Support"}},"designNotes":"1 sentence naming the signature moment"}`;
 
 const ROOM_PROMPT = `You are Design IQ by The BNB Exchange. Design ONE room for a short-term rental.
 
-SPEED PRIORITY: You must complete this task within 45 seconds. Do MAX 3 web searches total (not per product). Search broadly like "best affordable living room decor Amazon 2025" and pick multiple products from results.
+SPEED PRIORITY: You must complete this task within 55 seconds. Do 3-5 web searches, each targeting a SPECIFIC product type (e.g. one search for lamps, one for rugs, one for bedding). Do NOT do one broad search and reuse those results for every category — that causes wrong products in wrong categories.
 
 DESIGN MODE — PAY CLOSE ATTENTION:
 The user message will specify one of two modes:
@@ -153,17 +142,53 @@ RESEARCH:
 - Bright photos → +24% inquiries (Harvard). 82% judge trust by photos (Cornell).
 
 ROOM RULES:
-LIVING ROOM (P1): ONE focal wall. Sofa contrasts wall. 3+ light sources. 3+ textures. No clutter.
-BEDROOM (P2): White bedding always. Headboard non-negotiable. Symmetrical nightstands. Blackout curtains.
-KITCHEN (P3): Max 3-4 counter items. Under-cabinet lighting. Hardware upgrade.
-BATHROOM (P4): White towels always. Quality shower curtain. Minimal vanity items.
+LIVING ROOM (P1): This is the COVER PHOTO room — it must be the most visually striking room in the property. ONE dramatic focal wall. Sofa CONTRASTS wall (not matches it). 3+ light sources at different heights. 3+ textures (wood, metal, woven, velvet, ceramic). A statement piece that catches the eye — oversized art, a bold pendant light, a striking coffee table, or an accent wall that demands attention. No clutter, but not sterile either — styled with intention.
+BEDROOM (P2): White bedding always, BUT add visual drama through the headboard wall — accent wallpaper, bold paint, or a statement headboard. Symmetrical nightstands with matching lamps. Layer textures: linen, knit throw, velvet or patterned accent pillows in the palette accent color. Blackout curtains that puddle slightly.
+KITCHEN (P3): Max 3-4 counter items but make them PHOTOGENIC — a wooden cutting board, a matte black coffee maker, a small herb plant. Under-cabinet lighting is non-negotiable. Upgrade hardware to something with personality (brass, matte black, leather pulls). One styled moment — a cookbook display, a patterned backsplash, or open shelving with curated items.
+BATHROOM (P4): White towels always, but style them like a spa — rolled, stacked, or on a wooden ladder shelf. A statement mirror instead of a basic medicine cabinet. One luxury touch that photographs well — a rainfall showerhead, an interesting soap dispenser, a wooden bath tray, or a small stool with a plant.
+GAME ROOM / REC ROOM: This is your VIRAL ROOM — the one guests photograph and tag on Instagram. LED or neon accent lighting is non-negotiable (neon signs, LED strips behind shelving, color-changing bulbs). Wall art should be themed and bold — vintage game posters, neon signs, custom prints, or a gallery wall. Furniture means comfortable seating (sectional, bean bags, bar stools) oriented around the entertainment. Shelving for board games, organized and photogenic. If there's a bar area, style it with personality — bottles as decor, interesting glassware, a chalkboard menu. The accent wall should be DRAMATIC — dark paint, bold wallpaper, or a feature wall with wood slats. This room should have a distinct VIBE that's different from the rest of the property — moody, fun, or themed.
+OFFICE / WORKSPACE: Clean, minimal, professional. Good task lighting (desk lamp). Floating shelves with curated objects. A plant. Artwork that's sophisticated but not distracting. The goal is a photo that says "you could actually work here" — not a closet with a folding table.
+DINING AREA: A statement light fixture over the table is the hero move. Table should be set or partially styled — a simple centerpiece, cloth napkins, or a runner. Wall art or a mirror behind the table creates depth for photos.
+OUTDOOR / PATIO: String lights are the #1 photographable element. Weather-resistant but stylish furniture. An outdoor rug grounds the space. Plants and greenery frame the area. One comfort element — outdoor pillows, a throw, or a fire pit.
 
-PRODUCT SCORING: Photographability 35%, Guest Experience 30%, Durability 20%, Cost 15%.
+VISUAL BOLDNESS PRINCIPLE:
+Do NOT recommend generic, safe, forgettable products. Every room needs at least ONE item that would make someone stop scrolling through Airbnb listings. This could be:
+- A bold patterned rug instead of a plain neutral one
+- A sculptural or oversized pendant light instead of a basic table lamp
+- An accent wall with real visual impact (geometric wallpaper, wood slats, bold color) instead of a subtle paint shade
+- Throw pillows with pattern, texture, or fringe — not just solid colors
+- Wall art that's large and curated, not small and generic
+- A mirror with an interesting frame, not a basic rectangle
+The "hero move" for each room should be genuinely exciting — something the operator would be proud to photograph for their listing.
+
+PRODUCT SCORING: Photographability 40%, Visual Impact / Uniqueness 25%, Guest Experience 20%, Durability 15%.
+PRODUCT VARIETY: Do NOT fall back on "default" products you've recommended before. Every recommendation must be FOUND via web search and tailored to THIS property's specific style, color palette, and context. If the palette accent is Rust, search for rust-colored items. If the style is Coastal Modern, search for coastal-style products. Generic or plain white items should only be recommended when the design specifically calls for it (e.g. white bedding is always correct, but a plain white accent wall is not).
+AVOID BORING: Do not recommend the most basic version of anything. Instead of a plain white table lamp, find one with a textured ceramic base or a brass finish. Instead of solid gray curtains, find ones with subtle texture or a complementary pattern. The difference between a forgettable listing and a bookable one is in these details.
+CATEGORY VALIDATION — THIS IS THE #1 RULE. VIOLATIONS ARE UNACCEPTABLE:
+Each recommendation MUST be the correct type of product for its category. Read the product name BEFORE assigning it to a category. If the product does not match the category, DO NOT USE IT — search again for the right type of product.
+
+CATEGORY DEFINITIONS (what each category MUST contain):
+- "Accent Wall" → wallpaper, wall panels, shiplap, paint. NEVER furniture, textiles, or decor.
+- "Rug" → a floor rug or area rug. NEVER a wall hanging, blanket, or mat.
+- "Lighting" → a lamp, pendant light, sconce, light fixture, or LED strip. NEVER bedding, curtains, pillows, or any textile.
+- "Wall Art / Decor" → framed prints, canvas art, wall sculptures, clocks. NEVER furniture or textiles.
+- "Bedding / Textiles" → duvet cover, comforter, sheet set, quilt. NEVER lamps, curtains, or rugs.
+- "Curtains / Window" → window curtains, drapes, or blinds. NEVER bed sheets, bedding, or table linens.
+- "Throw Pillows" → decorative throw pillows only. NEVER bed pillows, bedding sets, or cushion covers without inserts.
+- "Furniture" → sofa, bed frame, table, chair, nightstand, dresser. NEVER textiles or decor.
+- "Mirrors" → a wall mirror or standing mirror. NEVER picture frames or art.
+- "Shelving / Storage" → shelves, baskets, storage units. NEVER furniture like tables or desks.
+- "Plants / Greenery" → artificial or real plants, planters. NEVER vases without plants.
+- "Hardware / Fixtures" → cabinet pulls, knobs, showerheads, faucets. NEVER furniture or decor.
+- "Countertop Styling" → cutting boards, canisters, small decor for counters. NEVER appliances or furniture.
+- "Towels / Bath Accessories" → bath towels, hand towels, bath mats, soap dispensers. NEVER bedding or kitchen textiles.
+
+VALIDATION CHECK: Before returning your JSON, read each recommendation and confirm: "Is this [product name] actually a [category name]?" If a comforter is in the Lighting slot, THAT IS WRONG — move it to Bedding and find an actual lamp for Lighting. Every single category must contain the correct product type. NO EXCEPTIONS.
 INVEST: mattress/bedding, sofa, headboard, statement lighting, rugs.
 SAVE: pillows, small decor, kitchen essentials.
 
 CRITICAL INSTRUCTIONS:
-1. SPEED IS CRITICAL — You have a 55-second time limit. Do AT MOST 2 web searches total. Example: search "Amazon best sellers living room decor staging" and pick multiple products from those results. If you know a good Amazon product already, just use it WITHOUT searching. NEVER do more than 3 searches or you will time out.
+1. ACCURACY IS CRITICAL — Each category MUST contain the correct product type. A "Lighting" recommendation must be an actual lamp or light fixture. "Curtains / Window" must be actual curtains. Do NOT put bedding in the Lighting slot or sheets in the Curtains slot. Search for each product type separately: search "modern table lamp Amazon" for Lighting, "blackout curtains Amazon" for Curtains, etc. Do 3-5 targeted searches. Getting product types RIGHT matters more than speed.
 2. For researchBasis, write in PLAIN ENGLISH with real numbers. Do NOT use academic citation format like "Zhang et al." — instead write things like "Texture contrast adds ~$3,453/yr in revenue" or "Cover photos with this style get 35% more bookings" or "Bright photos get 24% more inquiries." Make it about the money and the impact, not the study.
 3. For whyThisProduct, explain why THIS specific product fits THIS property in 1 sentence.
 4. Do NOT use any <cite>, , or other XML/HTML tags in your text output. All text must be plain English only.
@@ -171,43 +196,77 @@ CRITICAL INSTRUCTIONS:
 
 If a photo is provided, analyze what exists and tailor recommendations to the actual space.
 
-CATEGORY SYSTEM: The user selects which design categories they want recommendations for. You MUST return EXACTLY one recommendation per selected category — no more, no less. The categories will be listed in the user message.
+CATEGORY SYSTEM: The user selects which design categories they want recommendations for. You MUST return at least one recommendation per selected category. If the user has also made SPECIFIC REQUESTS in their notes (e.g. "I need a coffee table"), you MUST honor those too — map the request to a selected category if possible, otherwise add it as an extra recommendation with an appropriate category label. Never ignore something the user specifically asked for.
 
-ACCENT WALL: When "Accent Wall" is a selected category, this is a HIGH PRIORITY recommendation. For rental arbitrage properties, ALWAYS prefer removable peel-and-stick wallpaper (search Amazon or Etsy for specific products). Only suggest paint if the user specifically asks. Tell them WHICH wall (e.g. "the wall behind the TV" or "the wall behind the headboard") and WHY that wall.
+ACCENT WALL: When "Accent Wall" is a selected category, this is a HIGH PRIORITY recommendation that must be TAILORED to the property's specific style and color palette. Do NOT default to plain white or generic options. The accent wall should incorporate the profile's accent color or a pattern/texture that complements the palette. Consider ALL accent wall types and pick the best fit for the style:
+- Peel-and-stick wallpaper (pattern, textured, botanical, geometric) — great for rental arbitrage. PREFER ETSY for higher quality, unique options.
+- Vertical wood slat/panel wall kits (natural oak, walnut, black) — modern, high-end look. Great for Modern Minimal, Elevated Modern, Modern Rustic.
+- 3D wall panels (PVC or wood, geometric or wave patterns) — adds depth and photographs beautifully.
+- Board and batten (DIY-friendly, paintable) — classic for Warm Contemporary, works in bedrooms and living rooms.
+- Shiplap panels (peel-and-stick or real wood) — Modern Rustic, Coastal Modern.
+- Faux stone/brick panels — Modern Rustic, industrial-leaning spaces.
+- Bold paint color (specify brand, name, code) — simplest option, best when the wall just needs color contrast.
+Pick the treatment that best matches the property's style — not just the easiest option. Tell them WHICH wall and WHY. Every accent wall recommendation should feel unique to THIS property.
+
+URL RULES — THIS IS CRITICAL:
+- ONLY return a URL if you copied it EXACTLY from a web search result link. Do NOT construct, guess, or fabricate URLs.
+- If you found the product via web search, copy the EXACT URL from the search result — do not modify it or try to shorten it.
+- If you are recommending a product you know about but did NOT find via search, set "url" to "" (empty string). Do NOT invent an Amazon /dp/ link or any other URL.
+- NEVER fabricate an Amazon ASIN or /dp/ link. If you didn't click through to the actual product page in search results, leave the URL empty.
+- The client will automatically generate a retailer search link as a fallback for any empty URLs, so empty is MUCH better than fake.
 
 Respond ONLY with valid JSON, no markdown:
-{"name":"Room Name","priority":1,"priorityReason":"Short reason","heroMove":"One sentence","photoTips":["Tip 1","Tip 2"],"recommendations":[{"item":"Exact product name from retailer","price":149.99,"url":"https://actual-product-page-url","retailer":"amazon|wayfair|etsy","category":"Accent Wall|Rug|Lighting|Wall Art / Decor|Bedding / Textiles|Curtains / Window|Throw Pillows|Furniture|Mirrors|Shelving / Storage|Plants / Greenery|Hardware / Fixtures|Countertop Styling|Towels / Bath Accessories","investLevel":"INVEST|SAVE","impact":"High|Medium","quantity":1,"researchBasis":"Plain English — what the research says about revenue impact","whyThisProduct":"Why this specific product fits this property"}]}
-Return exactly ONE recommendation per selected category with REAL product page URLs found via search.`;
+{"name":"Room Name","priority":1,"priorityReason":"Short reason","heroMove":"The ONE design move that will make this room a scroll-stopper — be specific and bold","photoTips":["Tip 1","Tip 2"],"recommendations":[{"item":"Exact product name from retailer","price":149.99,"url":"https://exact-url-from-search-results-or-empty-string","searchQuery":"product name keywords for search","retailer":"amazon|wayfair|etsy","category":"Accent Wall|Rug|Lighting|Wall Art / Decor|Bedding / Textiles|Curtains / Window|Throw Pillows|Furniture|Mirrors|Shelving / Storage|Plants / Greenery|Hardware / Fixtures|Countertop Styling|Towels / Bath Accessories","investLevel":"INVEST|SAVE","impact":"High|Medium","quantity":1,"researchBasis":"Plain English — what the research says about revenue impact","whyThisProduct":"Why this specific product fits this property"}]}
+The "searchQuery" field is REQUIRED — it should be 3-6 word search terms a user would type to find this exact product on the retailer site (e.g. "modern brass arc floor lamp" or "white waffle weave duvet king").
+Return exactly ONE recommendation per selected category, plus any additional items the user specifically requested.`;
 
-const REFINE_PROFILE_PROMPT = `You are Design IQ by The BNB Exchange. The user has an existing design profile and is either asking a question about it OR requesting a change.
+const REFINE_PROFILE_PROMPT = `You are Design IQ by The BNB Exchange — an expert interior design consultant specializing in short-term rental properties. You know the research: professional-quality design increases earnings by 40%, optimized color palettes drive $6,790/yr in additional revenue, and the right style-to-market match directly impacts bookings and nightly rates.
 
-Here is their current profile:
+The user has an existing design profile for their property. Here it is:
 {CURRENT_PROFILE}
 
-The user says: {USER_FEEDBACK}
+The user's latest message: {USER_FEEDBACK}
+
+CONVERSATION CONTEXT: This is a multi-turn conversation. The full conversation history is in the messages array. If the user references something discussed earlier (e.g. "do that", "the ones we just discussed", "yes", "update", "let's go with that"), look at the PREVIOUS messages in the conversation to understand what they're referring to, then take action. When the user confirms a change you discussed, return the updated JSON immediately — do not ask them to repeat it.
 
 INSTRUCTIONS:
-- If the user is ASKING A QUESTION (e.g. "why did you pick that color?" or "what would navy do to the vibe?"), respond with a helpful answer in plain text. Do NOT return JSON. Just answer naturally in 2-3 sentences, referencing their specific property and design context.
-- If the user is REQUESTING A CHANGE (e.g. "swap the coral for terracotta" or "make it warmer"), update the profile and return the updated JSON in the same format as the original. Only change what they asked for — keep everything else the same.
+- If the user is ASKING A QUESTION (e.g. "why did you pick that color?", "what would navy do to the vibe?", "is this style good for families?", "what about the bedroom?"):
+  - Give a thoughtful, knowledgeable answer in plain text. Do NOT return JSON.
+  - Reference their SPECIFIC profile data — mention the actual style name, color names, hex codes, and design notes from the JSON above.
+  - Explain your reasoning using design principles (60/30/10 rule, contrast, photographability, guest psychology).
+  - When relevant, tie it back to revenue impact — how does this design choice affect bookings, nightly rates, or photo quality?
+  - Be conversational and direct. You're their design consultant, not a chatbot. Talk to them like a knowledgeable friend who happens to know interior design inside and out.
+  - If they ask about alternative colors or styles, explain the tradeoffs — what they'd gain and what they'd lose. Help them think through it.
+  - Vary your response length to match the question: simple questions get 2-3 sentences, deeper questions get a full paragraph.
 
-CRITICAL: Do NOT use any <cite> or citation tags. All text must be plain English only.`;
+- If the user is REQUESTING A CHANGE (e.g. "swap the coral for terracotta", "make it warmer", "change the style to coastal"):
+  - Update the profile and return the updated JSON in the same format as the original.
+  - Only change what they asked for — keep everything else the same.
+  - Make sure the updated palette still follows the 60/30/10 rule and has good contrast for photography.
+
+CRITICAL: Do NOT use any <cite>, citation tags, or markdown formatting (**bold**, *italic*). All text must be clean plain English only.`;
 
 const REFINE_ROOM_PROMPT = `You are Design IQ by The BNB Exchange. The user has room design recommendations and is either asking a question OR requesting a change.
 
-Here are their current recommendations:
+Here are their current recommendations (THIS IS THE SOURCE OF TRUTH — read every item carefully before responding):
 {CURRENT_RESULT}
 
-The user says: {USER_FEEDBACK}
+The user's latest message: {USER_FEEDBACK}
+
+CONVERSATION CONTEXT: This is a multi-turn conversation. The full conversation history is in the messages array. If the user references something discussed earlier (e.g. "do that", "swap that one", "yes", "ok let's go with that"), look at the PREVIOUS messages to understand what they're referring to, then take action. When the user confirms a swap you discussed, return the updated JSON immediately — do not ask them to repeat the request.
+
+CRITICAL — READ THE ACTUAL DATA FIRST:
+Before responding, carefully read EVERY item in the "recommendations" array above. When the user asks about a specific product (e.g. "the accent wall" or "the rug"), look at the ACTUAL "item" field, "category" field, and other details in the JSON. Do NOT guess or assume what was recommended based on the style name or color palette — ONLY reference what is literally in the recommendations data above. For example, if the accent wall recommendation is a white peel-and-stick wallpaper, say that — do not say it's burnt orange just because the accent color in the palette is burnt orange.
 
 INSTRUCTIONS:
-- If the user is ASKING A QUESTION (e.g. "why did you pick that rug?" or "would a darker sofa work better?"), respond with a helpful answer in plain text. Do NOT return JSON. Just answer naturally in 2-3 sentences, referencing their specific room, products, and property context. Include revenue/booking impact data where relevant.
+- If the user is ASKING A QUESTION (e.g. "why did you pick that rug?" or "would a darker sofa work better?"), respond with a helpful answer in plain text. Do NOT return JSON. Reference the SPECIFIC product names and details from the recommendations data above. Include revenue/booking impact data where relevant. Keep it to 2-3 sentences.
 - If the user is REQUESTING A CHANGE (e.g. "find a blue rug" or "swap the sofa for something cheaper"), search for replacements and return the COMPLETE updated JSON.
 
 CRITICAL RULES FOR CHANGES — FOLLOW THESE EXACTLY:
 1. COPY-PASTE UNCHANGED ITEMS: For every item the user did NOT mention, copy its EXACT JSON object from the current data above — same "item", same "price", same "url", same "retailer", same "category", same "investLevel", same "impact", same "quantity", same "researchBasis", same "whyThisProduct". Do not rewrite, rephrase, or re-research unchanged items. Literally copy them.
 2. ZERO DUPLICATES: The output must have the SAME NUMBER of recommendation objects as the input (unless the user explicitly asks to add or remove items). Count the input array length and match it exactly.
 3. ONE SWAP PER REQUEST: If the user says "swap the rug", identify the ONE rug item, remove it, and put the new rug in that SAME array position. All other items stay in their original positions.
-4. REAL URLS ONLY: Every product URL MUST be a specific product page (e.g. amazon.com/dp/XXXXX), NEVER a homepage or search results page. Prefer Amazon unless user asks otherwise.
+4. URL RULES: ONLY include a URL if you copied it EXACTLY from a web search result. If you did NOT find the product via search, set "url" to "" (empty string). NEVER fabricate Amazon /dp/ links or any other URL. Empty is better than fake. Always include a "searchQuery" field with 3-6 word search terms for the product.
 5. REAL PRICES: Return actual prices found from product pages, not estimates.
 6. NO CITATION TAGS: Do NOT use any <cite> or XML tags. Plain English only.
 7. PRESERVE ALL FIELDS: The returned JSON must have heroMove, photoTips, priority, priorityReason, and the full recommendations array. Copy unchanged top-level fields exactly.
@@ -216,7 +275,8 @@ VALIDATION CHECKLIST BEFORE RESPONDING:
 - Count input recommendations: ___. Count output recommendations: ___. They MUST match (unless user asked to add/remove).
 - Every unchanged item is byte-for-byte identical to the input.
 - No item name appears more than once.
-- Every URL is a real product page, not a homepage.
+- Every URL is either copied exactly from search results or empty string. No fabricated URLs.
+- Every item has a "searchQuery" field with 3-6 word search terms.
 
 Respond with EITHER plain text (for questions) OR valid JSON (for changes). No markdown.`;
 
@@ -233,23 +293,88 @@ const RETAILERS = {
 
 const VENDOR_DOMAINS = { "amazon.com": "amazon", "etsy.com": "etsy", "wayfair.com": "wayfair", "walmart.com": "walmart", "target.com": "target", "ikea.com": "ikea" };
 const detectVendor = (url) => { if (!url) return "other"; const u = url.toLowerCase(); for (const [d, v] of Object.entries(VENDOR_DOMAINS)) if (u.includes(d)) return v; return "other"; };
-const stripCites = (text) => { if (!text) return ""; return text.replace(/<\/?cite[^>]*>/gi, "").replace(/<\/?antml:cite[^>]*>/gi, "").trim(); };
+
+// Generate a retailer search URL as fallback when AI doesn't provide a real product link
+const buildSearchUrl = (query, retailer) => {
+  const q = encodeURIComponent(query);
+  const urls = {
+    amazon: `https://www.amazon.com/s?k=${q}`,
+    wayfair: `https://www.wayfair.com/keyword.php?keyword=${q}`,
+    etsy: `https://www.etsy.com/search?q=${q}`,
+    walmart: `https://www.walmart.com/search?q=${q}`,
+    target: `https://www.target.com/s?searchTerm=${q}`,
+    ikea: `https://www.ikea.com/us/en/search/?q=${q}`,
+  };
+  return urls[retailer] || urls.amazon;
+};
+
+// Check if a URL looks real (not fabricated)
+const isRealUrl = (url) => {
+  if (!url || url.length < 15) return false;
+  // Reject obvious fakes: made-up ASINs, generic homepages, search pages
+  if (/amazon\.com\/dp\/B0[A-Z0-9]{8,}$/i.test(url) && !url.includes("?")) {
+    // Bare Amazon dp links with no query params are often fabricated — but could be real
+    // We'll treat them as potentially real but add a search fallback too
+    return true;
+  }
+  if (/\/(s\?|search|keyword\.php)/.test(url)) return false; // already a search URL
+  if (/^https?:\/\/[^\/]+\/?$/.test(url)) return false; // just a homepage
+  return true;
+};
+
+// Get the best link for a product — real URL or fallback search
+const getProductLink = (rec) => {
+  const searchTerms = rec.searchQuery || rec.item;
+  const retailer = rec.retailer || detectVendor(rec.url) || "amazon";
+  if (rec.url && isRealUrl(rec.url)) {
+    return { url: cleanUrl(rec.url), isDirect: true, searchUrl: buildSearchUrl(searchTerms, retailer) };
+  }
+  return { url: buildSearchUrl(searchTerms, retailer), isDirect: false, searchUrl: null };
+};
+const stripCites = (text) => { if (!text) return ""; return text.replace(/<\/?cite[^>]*>/gi, "").replace(/<\/?antml:cite[^>]*>/gi, "").replace(/\*\*(.*?)\*\*/g, "$1").replace(/\*(.*?)\*/g, "$1").trim(); };
+
+// Clean URLs — strip tracking params that break pages
+const cleanUrl = (url) => {
+  if (!url) return "";
+  try {
+    const u = new URL(url);
+    // Etsy: strip dd_referrer and other tracking params
+    if (u.hostname.includes("etsy.com")) {
+      u.searchParams.delete("dd_referrer");
+      u.searchParams.delete("ref");
+      u.searchParams.delete("ga_search_query");
+      u.searchParams.delete("ga_search_type");
+      u.searchParams.delete("ga_view_type");
+      u.searchParams.delete("ga_order");
+      u.searchParams.delete("click_key");
+      u.searchParams.delete("click_sum");
+      // Strip empty search string
+      if (u.search === "?") u.search = "";
+    }
+    // Amazon: strip tracking but keep /dp/ URL intact
+    if (u.hostname.includes("amazon.com")) {
+      u.searchParams.delete("pd_rd_w");
+      u.searchParams.delete("pd_rd_r");
+      u.searchParams.delete("pf_rd_p");
+      u.searchParams.delete("pf_rd_r");
+      u.searchParams.delete("ref_");
+      u.searchParams.delete("content-id");
+      if (u.search === "?") u.search = "";
+    }
+    return u.toString();
+  } catch { return url; }
+};
 
 const STATUS_CYCLE = ["planned", "ordered", "delivered", "installed"];
 const STATUS_COLORS = { planned: { bg: "#f3f4f6", text: "#6b7280" }, ordered: { bg: "#dbeafe", text: "#1e40af" }, delivered: { bg: "#fef3c7", text: "#92400e" }, installed: { bg: "#d1fae5", text: "#065f46" } };
 
-const PROPERTY_TYPES = ["Apartment", "Townhome", "Single Family", "Condo", "Duplex"];
-const LIGHT_LEVELS = ["Abundant", "Moderate", "Limited"];
-const ARCH_FEATURES = ["Exposed Brick", "High Ceilings", "Fireplace", "Large Windows", "Vaulted Ceilings", "Crown Molding", "None Notable"];
 const NEIGHBORHOODS = ["Urban Core", "Suburban", "Near University", "Near Hospital", "Lake/Mountain", "Beach/Coastal", "Rural"];
-const RATE_RANGES = ["Budget (<$80)", "Mid ($80–$150)", "Premium ($150+)"];
 const GUEST_TYPES = ["Business Travelers", "Traveling Nurses/Medical", "Families", "Couples", "Groups/Events", "Mixed"];
-const STAY_LENGTHS = ["Weekend (1–3 nights)", "Short-Term (4–14 nights)", "Mid-Term (30+ nights)"];
-const BUDGETS = ["Under $2,000", "$2,000–$5,000", "$5,000–$10,000", "$10,000–$20,000", "$20,000+"];
+const ROOM_BUDGETS = ["Under $200", "$200–$500", "$500–$1,000", "$1,000–$2,000", "$2,000+"];
 const COLOR_PREFS = ["Warm Earth Tones", "Cool Blues & Grays", "Navy & Gold", "Black & White", "Greens & Naturals", "Neutral/Beige Tones", "Bold & Colorful"];
 
 const DESIGN_CATEGORIES = [
-  { id: "accent_wall", label: "Accent Wall", emoji: "🎨", desc: "Paint or peel-and-stick wallpaper" },
+  { id: "accent_wall", label: "Accent Wall", emoji: "🎨", desc: "Wallpaper, wood slats, 3D panels, paint" },
   { id: "rug", label: "Rug", emoji: "🟫" },
   { id: "lighting", label: "Lighting", emoji: "💡", desc: "Lamps, pendants, under-cabinet" },
   { id: "wall_art", label: "Wall Art / Decor", emoji: "🖼️" },
@@ -271,20 +396,34 @@ const ROOM_DEFAULTS = {
   "Bedroom": ["accent_wall", "bedding", "lighting", "curtains", "wall_art"],
   "Kitchen": ["accent_wall", "lighting", "hardware", "countertop", "wall_art"],
   "Bathroom": ["accent_wall", "towels_bath", "mirrors", "hardware", "shelving"],
+  "Game Room": ["accent_wall", "lighting", "wall_art", "furniture", "shelving", "rug"],
+  "Office": ["lighting", "wall_art", "shelving", "plants", "rug"],
+  "Dining": ["lighting", "wall_art", "rug", "curtains", "plants"],
+  "Outdoor": ["lighting", "furniture", "plants", "rug"],
 };
 const getRoomDefaults = (roomName) => {
-  if (roomName.includes("Bedroom")) return ROOM_DEFAULTS["Bedroom"] || ROOM_DEFAULTS["Primary Bedroom"];
-  if (roomName.includes("Bathroom")) return ROOM_DEFAULTS["Bathroom"];
-  if (roomName.includes("Kitchen")) return ROOM_DEFAULTS["Kitchen"];
-  if (roomName.includes("Living")) return ROOM_DEFAULTS["Living Room"];
+  const lower = roomName.toLowerCase();
+  if (lower.includes("bedroom")) return ROOM_DEFAULTS["Bedroom"] || ROOM_DEFAULTS["Primary Bedroom"];
+  if (lower.includes("bathroom")) return ROOM_DEFAULTS["Bathroom"];
+  if (lower.includes("kitchen")) return ROOM_DEFAULTS["Kitchen"];
+  if (lower.includes("living")) return ROOM_DEFAULTS["Living Room"];
+  if (lower.includes("game") || lower.includes("rec") || lower.includes("entertainment") || lower.includes("play")) return ROOM_DEFAULTS["Game Room"];
+  if (lower.includes("office") || lower.includes("work") || lower.includes("study")) return ROOM_DEFAULTS["Office"];
+  if (lower.includes("dining")) return ROOM_DEFAULTS["Dining"];
+  if (lower.includes("patio") || lower.includes("outdoor") || lower.includes("deck") || lower.includes("porch")) return ROOM_DEFAULTS["Outdoor"];
   return ROOM_DEFAULTS["Living Room"];
 };
 const getRoomCategories = (roomName) => {
   const hide = [];
-  if (roomName.includes("Kitchen")) hide.push("bedding", "throw_pillows", "rug");
-  if (roomName.includes("Bathroom")) hide.push("bedding", "throw_pillows", "rug", "curtains", "furniture", "countertop");
-  if (roomName.includes("Living")) hide.push("bedding", "towels_bath", "hardware", "countertop");
-  if (roomName.includes("Bedroom")) hide.push("towels_bath", "hardware", "countertop");
+  const lower = roomName.toLowerCase();
+  if (lower.includes("kitchen")) hide.push("bedding", "throw_pillows", "rug");
+  if (lower.includes("bathroom")) hide.push("bedding", "throw_pillows", "rug", "curtains", "furniture", "countertop");
+  if (lower.includes("living")) hide.push("bedding", "towels_bath", "hardware", "countertop");
+  if (lower.includes("bedroom")) hide.push("towels_bath", "hardware", "countertop");
+  if (lower.includes("game") || lower.includes("rec") || lower.includes("entertainment") || lower.includes("play")) hide.push("bedding", "towels_bath", "hardware", "countertop", "curtains");
+  if (lower.includes("office") || lower.includes("work") || lower.includes("study")) hide.push("bedding", "towels_bath", "hardware", "countertop", "throw_pillows");
+  if (lower.includes("dining")) hide.push("bedding", "towels_bath", "hardware", "countertop", "throw_pillows", "shelving");
+  if (lower.includes("patio") || lower.includes("outdoor") || lower.includes("deck") || lower.includes("porch")) hide.push("bedding", "towels_bath", "hardware", "countertop", "curtains", "accent_wall", "mirrors");
   return DESIGN_CATEGORIES.filter(c => !hide.includes(c.id));
 };
 
@@ -353,7 +492,7 @@ async function callAI(systemPrompt, userContent, maxTokens = 2048, useWebSearch 
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  if (!res.ok) { const e = await res.text(); let msg = `API ${res.status}`; try { const ed = JSON.parse(e); msg = ed.error?.message || ed.error?.type || msg; } catch {} throw new Error(msg); }
+  if (!res.ok) { const e = await res.text(); throw new Error(`API ${res.status}: ${e.substring(0, 120)}`); }
   const data = await res.json();
   if (!data.content?.length) throw new Error("Empty AI response");
 
@@ -436,27 +575,31 @@ function ResearchLoader({ text }) {
 
 const INTAKE_STEPS = [
   { id: "property", label: "Property", icon: "🏠" },
-  { id: "market", label: "Market", icon: "📍" },
-  { id: "budget", label: "Budget", icon: "💰" },
-  { id: "style", label: "Style", icon: "🎨" },
+  { id: "preferences", label: "Preferences", icon: "🎨" },
 ];
 
 function DesignerIntake({ onComplete, onBack }) {
   const [step, setStep] = useState(0);
   const [d, setD] = useState({});
 
-  const toggleMulti = (field, val, exclusive) => {
+  const toggleMulti = (field, val) => {
     const arr = d[field] || [];
-    if (exclusive) { setD({ ...d, [field]: arr.includes(val) ? [] : [val] }); return; }
-    const w = arr.filter(x => x !== "None Notable");
-    setD({ ...d, [field]: w.includes(val) ? w.filter(x => x !== val) : [...w, val] });
+    setD({ ...d, [field]: arr.includes(val) ? arr.filter(x => x !== val) : [...arr, val] });
   };
 
   const canNext = () => {
-    if (step === 0) return d.propertyType && d.bedrooms && d.bathrooms;
-    if (step === 1) return d.neighborhood && (d.guestType || []).length > 0;
-    if (step === 2) return d.budget;
+    if (step === 0) return d.bedrooms && d.bathrooms && d.neighborhood && (d.guestType || []).length > 0;
     return true;
+  };
+
+  const missingFields = () => {
+    if (step !== 0) return null;
+    const missing = [];
+    if (!d.bedrooms) missing.push("beds");
+    if (!d.bathrooms) missing.push("baths");
+    if (!d.neighborhood) missing.push("neighborhood");
+    if (!(d.guestType || []).length) missing.push("guest type");
+    return missing.length ? `Fill in ${missing.join(", ")} to continue` : null;
   };
 
   return (
@@ -470,56 +613,48 @@ function DesignerIntake({ onComplete, onBack }) {
         ))}
       </div>
 
+      <div className="card-inner" style={{ padding: "12px 16px", marginBottom: 12, background: "linear-gradient(145deg, #fffbeb, #fef3c7)", border: "1px solid rgba(217,119,6,0.1)" }}>
+        <p style={{ fontSize: 13, color: "#92400e", margin: 0, lineHeight: 1.5 }}>
+          <strong>How this works:</strong> Tell us about your property → we'll create a design profile and color palette → then you'll design each room one at a time with AI recommendations.
+        </p>
+      </div>
+
       <div className="card-inner" style={{ padding: 20, marginBottom: 16 }}>
         {step === 0 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-            <div><Label>Property Type</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{PROPERTY_TYPES.map(t => <Chip key={t} label={t} selected={d.propertyType === t} onClick={() => setD({ ...d, propertyType: t })} />)}</div></div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               <div><Label>Beds</Label><Input type="number" value={d.bedrooms || ""} onChange={v => setD({ ...d, bedrooms: v })} placeholder="3" min={1} max={10} /></div>
               <div><Label>Baths</Label><Input type="number" value={d.bathrooms || ""} onChange={v => setD({ ...d, bathrooms: v })} placeholder="2" min={1} max={10} /></div>
-              <div><Label>Sq Ft</Label><Input type="number" value={d.sqft || ""} onChange={v => setD({ ...d, sqft: v })} placeholder="1200" /></div>
             </div>
-            <div><Label>Natural Light</Label><div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>{LIGHT_LEVELS.map(l => <Chip key={l} label={l} selected={d.naturalLight === l} onClick={() => setD({ ...d, naturalLight: l })} />)}</div></div>
-            <div><Label sub="Select all that apply">Architectural Features</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{ARCH_FEATURES.map(f => <MultiChip key={f} label={f} selected={(d.archFeatures || []).includes(f)} onClick={() => toggleMulti("archFeatures", f, f === "None Notable")} />)}</div></div>
+            <div><Label sub="This determines your design style">Neighborhood Type</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{NEIGHBORHOODS.map(n => <Chip key={n} label={n} selected={d.neighborhood === n} onClick={() => setD({ ...d, neighborhood: n })} />)}</div></div>
+            <div><Label sub="Select all that apply">Target Guest</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{GUEST_TYPES.map(g => <MultiChip key={g} label={g} selected={(d.guestType || []).includes(g)} onClick={() => { const cur = d.guestType || []; setD({ ...d, guestType: cur.includes(g) ? cur.filter(x => x !== g) : [...cur, g] }); }} />)}</div></div>
           </div>
         )}
 
         {step === 1 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-            <div><Label>Market (city, state)</Label><Input value={d.market || ""} onChange={v => setD({ ...d, market: v })} placeholder="Charlotte, NC" /></div>
-            <div><Label>Neighborhood</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{NEIGHBORHOODS.map(n => <Chip key={n} label={n} selected={d.neighborhood === n} onClick={() => setD({ ...d, neighborhood: n })} />)}</div></div>
-            <div><Label>Comp Nightly Rate</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{RATE_RANGES.map(r => <Chip key={r} label={r} selected={d.rateRange === r} onClick={() => setD({ ...d, rateRange: r })} />)}</div></div>
-            <div><Label>Target Guest</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{GUEST_TYPES.map(g => <MultiChip key={g} label={g} selected={(d.guestType || []).includes(g)} onClick={() => { const cur = d.guestType || []; setD({ ...d, guestType: cur.includes(g) ? cur.filter(x => x !== g) : [...cur, g] }); }} />)}</div></div>
-            <div><Label>Avg Stay Length</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{STAY_LENGTHS.map(s => <Chip key={s} label={s} selected={d.stayLength === s} onClick={() => setD({ ...d, stayLength: s })} />)}</div></div>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-            <div><Label>Staging Budget</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{BUDGETS.map(b => <Chip key={b} label={b} selected={d.budget === b} onClick={() => setD({ ...d, budget: b })} />)}</div></div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-            <div><Label sub="Select any that appeal to you (optional)">Color Preferences</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{COLOR_PREFS.map(c => <MultiChip key={c} label={c} selected={(d.colorPrefs || []).includes(c)} onClick={() => toggleMulti("colorPrefs", c)} />)}</div></div>
+            <div><Label sub="Optional — select any that appeal to you">Color Preferences</Label><div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{COLOR_PREFS.map(c => <MultiChip key={c} label={c} selected={(d.colorPrefs || []).includes(c)} onClick={() => toggleMulti("colorPrefs", c)} />)}</div></div>
             <div><Label sub="Optional — helps the AI design around what you already have">What's Already in the Space?</Label>
               <textarea value={d.existingItems || ""} onChange={e => setD({ ...d, existingItems: e.target.value })} rows={2}
                 placeholder="e.g., Gray sectional, black granite countertops, painted the bedroom sage green"
-                style={{ width: "100%", padding: "9px 12px", fontSize: 15, border: "2px solid #e5e7eb", borderRadius: 8, outline: "none", resize: "vertical", fontFamily: fonts, boxSizing: "border-box" }} />
+                style={{ width: "100%", padding: "9px 12px", fontSize: 15, border: "1px solid rgba(0,0,0,0.08)", borderRadius: 10, outline: "none", resize: "vertical", fontFamily: fonts, boxSizing: "border-box", background: "linear-gradient(145deg, #ffffff, #fefdfb)", boxShadow: "0 1px 2px rgba(0,0,0,0.03) inset" }} />
             </div>
             <div><Label sub="Optional">Anything to Avoid?</Label>
               <textarea value={d.avoidNotes || ""} onChange={e => setD({ ...d, avoidNotes: e.target.value })} rows={2}
                 placeholder="e.g., No farmhouse, no pink, nothing too trendy, no velvet"
-                style={{ width: "100%", padding: "9px 12px", fontSize: 15, border: "2px solid #e5e7eb", borderRadius: 8, outline: "none", resize: "vertical", fontFamily: fonts, boxSizing: "border-box" }} />
+                style={{ width: "100%", padding: "9px 12px", fontSize: 15, border: "1px solid rgba(0,0,0,0.08)", borderRadius: 10, outline: "none", resize: "vertical", fontFamily: fonts, boxSizing: "border-box", background: "linear-gradient(145deg, #ffffff, #fefdfb)", boxShadow: "0 1px 2px rgba(0,0,0,0.03) inset" }} />
             </div>
           </div>
         )}
       </div>
 
+      {!canNext() && missingFields() && (
+        <p style={{ fontSize: 13, color: "#d97706", textAlign: "center", margin: "0 0 10px" }}>{missingFields()}</p>
+      )}
+
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Btn onClick={step > 0 ? () => setStep(step - 1) : onBack}>{step > 0 ? "← Back" : "← Home"}</Btn>
-        {step < 3 ? <Btn primary disabled={!canNext()} onClick={() => setStep(step + 1)}>Next →</Btn>
+        {step < 1 ? <Btn primary disabled={!canNext()} onClick={() => setStep(step + 1)}>Next →</Btn>
           : <Btn primary onClick={() => onComplete(d)}>✨ Generate Design Profile</Btn>}
       </div>
     </div>
@@ -536,6 +671,7 @@ function RefineChat({ currentData, promptTemplate, onUpdate, useWebSearch = fals
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [history, setHistory] = useState([]);
+  const apiHistory = useRef([]); // tracks full conversation for API context
 
   const send = async (text) => {
     const userMsg = (text || input).trim();
@@ -547,6 +683,13 @@ function RefineChat({ currentData, promptTemplate, onUpdate, useWebSearch = fals
         .replace("{CURRENT_PROFILE}", JSON.stringify(currentData))
         .replace("{CURRENT_RESULT}", JSON.stringify(currentData))
         .replace("{USER_FEEDBACK}", userMsg);
+
+      // Build full message history for multi-turn context
+      const messages = [
+        ...apiHistory.current,
+        { role: "user", content: userMsg },
+      ];
+
       const resp = await fetch("/api/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -554,7 +697,7 @@ function RefineChat({ currentData, promptTemplate, onUpdate, useWebSearch = fals
           model: "claude-sonnet-4-20250514",
           max_tokens: useWebSearch ? 4096 : 1024,
           system: prompt,
-          messages: [{ role: "user", content: userMsg }],
+          messages,
           ...(useWebSearch ? { tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }] } : {}),
         }),
       });
@@ -562,6 +705,14 @@ function RefineChat({ currentData, promptTemplate, onUpdate, useWebSearch = fals
       if (!resp.ok) throw new Error(`API ${resp.status}: ${JSON.stringify(data)}`);
       const aiText = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("\n").trim();
       const cleaned = stripCites(aiText);
+
+      // Store the exchange in API history for next turn
+      apiHistory.current = [
+        ...apiHistory.current,
+        { role: "user", content: userMsg },
+        { role: "assistant", content: cleaned },
+      ];
+
       try {
         const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
@@ -610,7 +761,7 @@ function RefineChat({ currentData, promptTemplate, onUpdate, useWebSearch = fals
         </div>
       )}
       {history.length > 0 && (
-        <div style={{ marginBottom: 10, maxHeight: 150, overflowY: "auto" }}>
+        <div style={{ marginBottom: 10, maxHeight: 280, overflowY: "auto" }}>
           {history.map((h, i) => (
             <div key={i} style={{ display: "flex", justifyContent: h.role === "user" ? "flex-end" : "flex-start", marginBottom: 4 }}>
               <div style={{
@@ -639,14 +790,58 @@ function RefineChat({ currentData, promptTemplate, onUpdate, useWebSearch = fals
   );
 }
 
+// ─── CLIENT-SIDE CATEGORY VALIDATION ───
+const CATEGORY_KEYWORDS = {
+  "Accent Wall": ["wallpaper", "wall panel", "shiplap", "peel-and-stick", "peel and stick", "board and batten", "faux brick", "faux stone", "wall slat"],
+  "Rug": ["rug", "area rug", "runner"],
+  "Lighting": ["lamp", "light", "pendant", "sconce", "chandelier", "led strip", "fixture", "lantern", "candelabra"],
+  "Wall Art / Decor": ["art", "print", "canvas", "poster", "frame", "wall decor", "sculpture", "clock", "gallery"],
+  "Bedding / Textiles": ["duvet", "comforter", "sheet", "bedding", "quilt", "blanket", "coverlet", "bed set", "bed-in-a-bag"],
+  "Curtains / Window": ["curtain", "drape", "blind", "shade", "window", "valance", "blackout"],
+  "Throw Pillows": ["throw pillow", "decorative pillow", "accent pillow", "pillow cover", "cushion"],
+  "Furniture": ["sofa", "couch", "bed frame", "table", "chair", "nightstand", "dresser", "desk", "bench", "ottoman", "headboard", "bookcase", "console"],
+  "Mirrors": ["mirror"],
+  "Shelving / Storage": ["shelf", "shelving", "basket", "storage", "organizer", "bin", "rack", "bookshelf"],
+  "Plants / Greenery": ["plant", "planter", "faux plant", "greenery", "succulent", "tree", "terrarium"],
+  "Hardware / Fixtures": ["knob", "pull", "handle", "showerhead", "faucet", "hardware", "towel bar", "hook"],
+  "Countertop Styling": ["cutting board", "canister", "soap dispenser", "utensil holder", "tray", "fruit bowl"],
+  "Towels / Bath Accessories": ["towel", "bath mat", "bath accessories", "shower curtain", "soap dish", "lotion dispenser"],
+};
+
+function detectProductCategory(productName) {
+  if (!productName) return null;
+  const lower = productName.toLowerCase();
+  let bestMatch = null, bestScore = 0;
+  for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+    for (const kw of keywords) {
+      if (lower.includes(kw) && kw.length > bestScore) {
+        bestMatch = cat; bestScore = kw.length;
+      }
+    }
+  }
+  return bestMatch;
+}
+
+function validateAndFixCategories(recommendations) {
+  if (!recommendations || !Array.isArray(recommendations)) return recommendations;
+  return recommendations.map(rec => {
+    const detected = detectProductCategory(rec.item);
+    if (detected && detected !== rec.category) {
+      // Product name clearly belongs to a different category — fix it
+      return { ...rec, category: detected };
+    }
+    return rec;
+  });
+}
+
 function RoomDesigner({ roomName, propertyProfile, intakeData, onComplete, onSkip, existingResult }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [photo, setPhoto] = useState(null);
-  const [dimensions, setDimensions] = useState("");
   const [roomNotes, setRoomNotes] = useState("");
   const [designMode, setDesignMode] = useState("refresh");
   const [keepItems, setKeepItems] = useState("");
+  const [roomBudget, setRoomBudget] = useState("");
   const [categories, setCategories] = useState(() => getRoomDefaults(roomName));
   const availableCategories = getRoomCategories(roomName);
   const allSelected = availableCategories.every(c => categories.includes(c.id));
@@ -654,32 +849,234 @@ function RoomDesigner({ roomName, propertyProfile, intakeData, onComplete, onSki
   const selectAll = () => setCategories(allSelected ? [] : availableCategories.map(c => c.id));
   const [result, setResult] = useState(existingResult || null);
   const fileRef = useRef(null);
+  const [visionImage, setVisionImage] = useState(null);
+  const [visionLoading, setVisionLoading] = useState(false);
+  const [visionFeedback, setVisionFeedback] = useState("");
+
+  const generateVision = async () => {
+    if (!photo) return;
+    setVisionLoading(true); setError(null); setVisionImage(null);
+    try {
+      const style = propertyProfile.style || "Modern";
+      const base = propertyProfile.colorPalette?.base?.name || "White";
+      const baseHex = propertyProfile.colorPalette?.base?.hex || "#FFFFFF";
+      const secondary = propertyProfile.colorPalette?.secondary?.name || "Neutral";
+      const secHex = propertyProfile.colorPalette?.secondary?.hex || "#808080";
+      const accent = propertyProfile.colorPalette?.accent?.name || "Bold accent";
+      const accHex = propertyProfile.colorPalette?.accent?.hex || "#D97706";
+      const notes = propertyProfile.designNotes || "";
+      // Build room-specific research instructions
+      const roomLower = roomName.toLowerCase();
+      let researchRules = "";
+      if (roomLower.includes("living")) {
+        researchRules = `RESEARCH-BACKED RULES FOR LIVING ROOM (this is the #1 revenue room — living room cover photos get +35% more bookings):
+- FIGURE-GROUND CONTRAST: The sofa and major furniture MUST visually pop against the walls. Use contrasting tones — if walls are light, furniture should be medium-to-dark. This single principle is worth ~$3,453/year in revenue.
+- 3+ LIGHT SOURCES visible: A floor lamp, table lamp, and overhead or pendant light. Layered lighting photographs dramatically better (+24% booking inquiries for bright, well-lit photos).
+- 3+ TEXTURES visible: Mix wood, woven materials, soft fabrics, metal accents, and ceramics. Texture variety adds depth to listing photos.
+- ONE FOCAL WALL: Create a clear visual anchor — accent wall, art arrangement, or styled shelving. This grounds the photo composition.
+- MINIMAL CLUTTER: Clean coffee table with max 2-3 styled items. No visual noise. Clean spaces signal trustworthiness to 82% of travelers.
+- STYLED BUT LIVABLE: Add a throw blanket draped on sofa, a plant, stacked books — looks inviting, not sterile.`;
+      } else if (roomLower.includes("bedroom")) {
+        researchRules = `RESEARCH-BACKED RULES FOR BEDROOM:
+- WHITE BEDDING ALWAYS: Crisp white duvet/comforter with white pillows. This is the #1 non-negotiable — it photographs cleanly and signals freshness.
+- HEADBOARD: Must have a visible, substantial headboard. This anchors the room in photos and signals quality.
+- SYMMETRY: Matching nightstands on both sides of the bed with matching lamps. Symmetry signals care and professionalism.
+- FIGURE-GROUND CONTRAST: Bed and headboard must contrast the wall behind them (~$3,453/yr revenue impact). If wall is light, headboard should be medium-dark.
+- LAYERED BEDDING: White base + 2-3 accent throw pillows in the palette colors + a folded throw at foot of bed. Adds texture and color without overwhelming.
+- BLACKOUT CURTAINS: Full-length, slightly puddled, in a complementary color. Frames the window and signals guest comfort.
+- WARM LIGHTING: Bedside lamps with warm bulbs (2700K). Overhead off. Warm bedrooms photograph more invitingly.`;
+      } else if (roomLower.includes("kitchen")) {
+        researchRules = `RESEARCH-BACKED RULES FOR KITCHEN:
+- MAX 3-4 COUNTER ITEMS: A styled cutting board, coffee maker, and one decorative item. Clear counters photograph as larger and cleaner.
+- UNDER-CABINET LIGHTING: Warm LED strips create depth and make the space feel premium in photos.
+- FRESH ELEMENTS: A small herb plant, bowl of lemons, or styled cookbook. Adds life without clutter.
+- HARDWARE: Visible cabinet pulls/knobs should look intentional and match the style.
+- CLEAN LINES: Everything aligned, towels hung neatly, no dishes visible. Kitchen photos with clean surfaces signal trustworthiness.`;
+      } else if (roomLower.includes("bathroom")) {
+        researchRules = `RESEARCH-BACKED RULES FOR BATHROOM:
+- WHITE TOWELS ALWAYS: Rolled or folded neatly, spa-style. White towels photograph cleanly and signal hotel-quality cleanliness.
+- MINIMAL VANITY: Max 2-3 items visible on counter — a soap dispenser, small plant, candle. Clear surfaces photograph as larger.
+- QUALITY SHOWER CURTAIN: Clean, pressed, in white or a subtle pattern. No liner visible.
+- WARM LIGHTING: Soft warm light, no harsh fluorescent. Makes the space feel spa-like.
+- ONE LUXURY TOUCH: A wooden bath tray, eucalyptus bunch, or premium soap. Signals elevated experience.`;
+      } else if (roomLower.includes("game") || roomLower.includes("rec") || roomLower.includes("entertainment") || roomLower.includes("play")) {
+        researchRules = `RULES FOR GAME ROOM / REC ROOM — THIS IS THE VIRAL ROOM:
+- MOOD LIGHTING IS EVERYTHING: LED strips, neon signs, color-changing bulbs, backlit shelving. This room should glow in photos.
+- BOLD ACCENT WALL: Dark paint, dramatic wallpaper, or a feature wall. This room should feel different from the rest of the property.
+- THEMED WALL ART: Vintage game posters, neon signs, bold prints. Not generic — it should tell a story.
+- SEATING FOR GROUPS: Comfortable, oriented around entertainment. Think sectional, bar stools, bean bags.
+- ORGANIZED FUN: Board games, cards, etc. displayed on shelves — photogenic and inviting, not messy.
+- ONE SIGNATURE PIECE: A neon sign, a dramatic light fixture, a bar cart, or a display piece that anchors the room's identity.`;
+      } else if (roomLower.includes("office") || roomLower.includes("work") || roomLower.includes("study")) {
+        researchRules = `RULES FOR OFFICE / WORKSPACE:
+- CLEAN DESK with good task lighting. The photo should say "you could work a full day here."
+- FLOATING SHELVES with curated objects — a plant, books, one interesting piece.
+- GOOD CHAIR visible — signals the host cares about the work experience.
+- WARM but focused lighting — desk lamp + ambient, not harsh overhead.`;
+      } else if (roomLower.includes("dining")) {
+        researchRules = `RULES FOR DINING AREA:
+- STATEMENT LIGHT FIXTURE over the table — this is the hero move for dining photos.
+- TABLE STYLED but not overdone — a simple centerpiece, runner, or cloth napkins.
+- WALL BEHIND TABLE should have depth — mirror, art, or shelving.
+- CHAIRS should have personality — not just folding chairs.`;
+      } else if (roomLower.includes("patio") || roomLower.includes("outdoor") || roomLower.includes("deck") || roomLower.includes("porch")) {
+        researchRules = `RULES FOR OUTDOOR SPACE:
+- STRING LIGHTS are the #1 most photographable outdoor element. Non-negotiable.
+- OUTDOOR RUG grounds the seating area and makes it feel like a room.
+- PLANTS AND GREENERY frame the space and add life.
+- ONE COMFORT ELEMENT — outdoor pillows, a throw, a fire pit — signals "you'll want to hang out here."`;
+      } else {
+        researchRules = `RESEARCH-BACKED RULES:
+- FIGURE-GROUND CONTRAST between furniture and walls (~$3,453/yr revenue impact)
+- 3+ LIGHT SOURCES for layered, bright lighting (+24% booking inquiries)
+- 3+ TEXTURES visible (wood, fabric, metal, ceramic, woven)
+- MINIMAL CLUTTER — clean surfaces signal trustworthiness to 82% of travelers
+- WARM LIGHTING (2700K) — creates inviting atmosphere in photos`;
+      }
+
+      // Build category-specific change instructions
+      const catLabels = categories.map(id => { const c = DESIGN_CATEGORIES.find(x => x.id === id); return c ? c.label : id; });
+      
+      let changeInstructions = "";
+      if (designMode === "refresh") {
+        changeInstructions = `This room is currently furnished. ONLY swap or add these items:\n${catLabels.map(c => `- ${c}`).join("\n")}
+${keepItems ? `\nDO NOT TOUCH these items (keep them exactly as-is): ${keepItems}` : ""}
+${roomNotes ? `\nUser's vision: "${roomNotes}"` : ""}
+Keep everything else exactly as it appears in the photo.`;
+      } else {
+        changeInstructions = `This room will be emptied of furniture. Place NEW items for these categories:\n${catLabels.map(c => `- ${c}`).join("\n")}
+${roomNotes ? `\nUser's vision: "${roomNotes}"` : ""}
+Keep ALL architecture, walls, flooring, ceiling, and built-ins exactly as shown.`;
+      }
+
+      const prompt = `You are editing a real photograph. The room's ARCHITECTURE is the star — preserve it with pixel-level accuracy.
+
+ARCHITECTURE PRESERVATION (NON-NEGOTIABLE):
+- The ceiling height, shape, and angles MUST remain EXACTLY as shown. If it's vaulted, double-height, sloped, or has exposed beams — keep every inch of it.
+- ALL walls, wall colors, wall textures, and wall angles MUST stay identical.
+- ALL windows, doors, archways, railings, staircases, lofts, and built-in features MUST remain exactly where they are and exactly as they look.
+- The flooring type, color, and pattern MUST stay the same.
+- The room's proportions, depth, and spatial layout MUST NOT change.
+- The camera angle, lens perspective, and field of view MUST match the original photo exactly.
+- If there is a chandelier, ceiling fan, or overhead fixture mounted to the ceiling, keep it unless the user asked to change lighting.
+
+LAYOUT PRESERVATION (NON-NEGOTIABLE):
+- Every piece of furniture MUST stay in the SAME POSITION and face the SAME DIRECTION as the original photo. If the sofa faces right, the new sofa faces right. If the TV is on the left wall, it stays on the left wall.
+- Do NOT rearrange, rotate, or relocate furniture. You are RESKINNING items in place — swapping a brown sofa for a blue one in the EXACT same spot, not moving it across the room.
+- ALL electronics (TVs, monitors, speakers, gaming consoles) MUST remain exactly where they are and stay visible. Do NOT remove or hide the TV.
+- ALL major appliances (fridge, stove, washer, etc.) stay exactly where they are.
+- The NUMBER of furniture pieces should stay roughly the same. Do not add or remove large furniture unless the user specifically asked.
+
+THIS IS A PHOTO EDIT, NOT A NEW IMAGE. The output should look like someone swapped the STYLE of items in place — same layout, same positions, same room — just better-looking furniture, textiles, and decor.
+
+WHAT TO CHANGE — ONLY the moveable items:
+${changeInstructions}
+
+STYLE DIRECTION: ${style}
+
+VISUAL BOLDNESS — THIS IS NOT A SAFE REFRESH:
+Create a space that would make someone stop scrolling through Airbnb listings. This means:
+- At least ONE statement piece that draws the eye — a dramatic light fixture, a bold accent wall, an oversized piece of art, a striking rug with pattern
+- STRONG figure-ground contrast — furniture should POP against walls, not blend in
+- Rich textures you can almost feel through the screen — velvet, woven rattan, hammered metal, natural wood grain, chunky knit
+- Confident use of the accent color — not a timid hint, but a committed splash
+- The room should look like it was designed by someone with a POINT OF VIEW, not assembled from a catalog
+Think boutique hotel, not corporate apartment.
+
+COLOR PALETTE (apply to NEW items only — do NOT repaint walls or change flooring):
+- Furniture/upholstery: ${secondary} (${secHex})
+- Accent items (pillows, small decor): ${accent} (${accHex})
+- Keep large surfaces as they are in the photo
+
+${researchRules}
+
+${notes ? `Design direction: ${notes}` : ""}
+${visionFeedback ? `\nUSER FEEDBACK ON PREVIOUS ATTEMPT (HIGH PRIORITY — address this specifically): "${visionFeedback}"` : ""}
+
+PHOTOREALISM:
+- Output MUST be indistinguishable from a real photograph.
+- Same natural lighting direction, same shadows, same color temperature as the original.
+- New furniture must have realistic scale relative to the room — if the ceiling is 20 feet tall, furniture should look proportionally correct, not oversized.
+- NO 3D renders, NO illustrations, NO AI-looking artifacts.`;
+
+
+      const resp = await fetch("/api/openai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: photo.base64, prompt }),
+      });
+      if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        throw new Error(errData.error?.message || errData.error || `Vision generation failed (${resp.status})`);
+      }
+      const data = await resp.json();
+      const b64 = data.data?.[0]?.b64_json;
+      if (!b64) throw new Error("No image returned from vision API");
+      // Compress the returned image
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const maxW = 800, scale = img.width > maxW ? maxW / img.width : 1;
+        canvas.width = img.width * scale; canvas.height = img.height * scale;
+        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+        setVisionImage(canvas.toDataURL("image/jpeg", 0.8).split(",")[1]);
+        setVisionLoading(false);
+      };
+      img.onerror = () => { setVisionImage(b64); setVisionLoading(false); };
+      img.src = `data:image/jpeg;base64,${b64}`;
+    } catch (err) {
+      setError(err.message);
+      setVisionLoading(false);
+    }
+  };
 
   const generate = async () => {
     setLoading(true); setError(null);
     try {
       let msg = `Design this room: ${roomName}\n`;
       msg += `DESIGN MODE: ${designMode === "fresh" ? "STAGING FROM SCRATCH — This is an empty or soon-to-be-empty room. Design the COMPLETE room with all necessary furniture and decor. Do not reference or work around any existing items." : "REDESIGN/REFRESH — This is a live listing that needs improvement. The photo shows the current state. Only recommend items that ADD TO or REPLACE what's there."}\n`;
-      msg += `Property: ${intakeData.propertyType}, ${intakeData.bedrooms}BR/${intakeData.bathrooms}BA, ${intakeData.neighborhood}, ${intakeData.market || ""}\n`;
+      msg += `Property: ${intakeData.bedrooms}BR/${intakeData.bathrooms}BA, ${intakeData.neighborhood}\n`;
       msg += `Style: ${propertyProfile.style}\n`;
       msg += `Palette: Base=${propertyProfile.colorPalette?.base?.name || "?"}, Secondary=${propertyProfile.colorPalette?.secondary?.name || "?"}, Accent=${propertyProfile.colorPalette?.accent?.name || "?"}\n`;
-      msg += `Guest: ${(intakeData.guestType || []).join(", ")}, Stay: ${intakeData.stayLength || "?"}, Budget: ${intakeData.budget}\n`;
-      if (dimensions) msg += `Room dimensions: ${dimensions}\n`;
+      msg += `Guest: ${(intakeData.guestType || []).join(", ")}\n`;
+      if (roomBudget) msg += `Budget for this room: ${roomBudget} — keep total recommendations within this range\n`;
       if (designMode === "refresh" && keepItems) msg += `ITEMS TO KEEP (do NOT replace or recommend alternatives for these): ${keepItems}\n`;
       if (intakeData.existingItems) msg += `General existing items in property: ${intakeData.existingItems}\n`;
       if (intakeData.avoidNotes) msg += `Avoid: ${intakeData.avoidNotes}\n`;
-      if (roomNotes) msg += `Notes for this room: ${roomNotes}\n`;
+      if (roomNotes) msg += `SPECIFIC REQUESTS FROM THE USER (HIGH PRIORITY): The user specifically asked for these items: "${roomNotes}". You MUST include recommendations that address these requests. If a requested item fits one of the selected categories below (e.g. a coffee table fits "Furniture"), use that category slot. If it doesn't fit any selected category, ADD IT as an extra recommendation beyond the selected categories. Never ignore a specific user request.\n`;
       const catLabels = categories.map(id => { const c = DESIGN_CATEGORIES.find(x => x.id === id); return c ? c.label : id; });
       msg += `\nSELECTED CATEGORIES — Give exactly ONE recommendation per category:\n${catLabels.join(", ")}\n`;
-      if (categories.includes("accent_wall")) msg += `\nACCENT WALL INSTRUCTIONS: Recommend either (a) a specific paint color with brand/name/code and specify WHICH wall from the photo to paint, OR (b) a specific peel-and-stick wallpaper product from Amazon or Etsy with a real product URL. For rental arbitrage properties, PREFER removable peel-and-stick options since operators typically cannot make permanent changes. Always explain which wall and why.\n`;
-      msg += `\nSEARCH EFFICIENCY — CRITICAL FOR SPEED:
-- Do NOT search for each product individually. Do 2-3 BROAD searches max (e.g. "modern living room decor Amazon", "peel and stick wallpaper accent wall Amazon").
-- Pick the best products from those search results to fill each category.
-- If you already know a good product and its approximate price, just recommend it without searching.
-- Only use web search when you need to verify a URL or find a specific product.
-- SPEED IS MORE IMPORTANT THAN PERFECTION. Good products fast > perfect products slow.
+      if (categories.includes("accent_wall")) {
+        const accentColor = propertyProfile.colorPalette?.accent?.name || "bold";
+        const secColor = propertyProfile.colorPalette?.secondary?.name || "neutral";
+        const style = propertyProfile.style || "modern";
+        msg += `\nACCENT WALL INSTRUCTIONS — THIS MUST BE TAILORED TO THIS PROPERTY:
+- The design profile style is "${style}" with accent color "${accentColor}" and secondary color "${secColor}".
+- Choose the BEST accent wall treatment for this style. Options include:
+  * Peel-and-stick wallpaper (search Etsy first, then Amazon) — e.g. "Etsy ${accentColor} peel and stick wallpaper"
+  * Vertical wood slat panels — e.g. "wood slat accent wall panel kit Amazon" — great for ${style.includes("Modern") ? "this modern style" : "adding warmth"}
+  * 3D wall panels (PVC or wood) — e.g. "3D decorative wall panel white modern Amazon"
+  * Board and batten or shiplap kits — e.g. "peel and stick shiplap wall planks"
+  * Faux stone or brick panels — e.g. "faux brick wall panel peel and stick"
+  * Bold paint color — specify exact brand/name/code, e.g. "Sherwin-Williams Urbane Bronze SW 7048"
+- Pick the treatment that best fits "${style}" — wood slats for Modern Minimal/Elevated, textured wallpaper for Warm Contemporary, shiplap for Coastal/Rustic, bold paint for any style needing simple contrast.
+- Do NOT recommend plain white or generic anything. The accent wall should create strong figure-ground contrast (worth ~$3,453/yr in revenue).
+- If a photo is provided, analyze the wall colors and existing materials to pick the right treatment.
+- Tell the user WHICH wall to apply it to and WHY.
+- The accent wall product must stay in the Accent Wall category only — do not reuse results for Rug, Lighting, or other categories.\n`;
+      }
+      msg += `\nSEARCH STRATEGY — SEARCH BY PRODUCT TYPE, NOT BROADLY:
+- DO NOT do one broad search and fill all categories from it. That leads to wrong product types in wrong categories.
+- Instead, group your searches by PRODUCT TYPE. Examples:
+  * If categories include Lighting + Rug + Bedding, you need at LEAST 2 searches: one for "lamp" or "lighting", one for "rug", one for "bedding" (or combine rug+bedding if results are mixed).
+  * Search for what the CATEGORY needs: "${propertyProfile.style || 'modern'} table lamp Amazon" for Lighting, "${propertyProfile.style || 'modern'} area rug 8x10 Amazon" for Rug.
+- Do 2-5 searches total. Each search should target a specific product TYPE.
+- COPY THE EXACT URL from search results — do not construct or modify URLs. If you can't find a URL, leave it empty ("").
+- You MUST use web search to find products. Do NOT recommend products from memory.
+- Always fill in the "searchQuery" field with 3-6 word search terms for each product.
+- AFTER building your JSON, do a FINAL CHECK: read each item's name and confirm it matches its category. A comforter is NEVER "Lighting." Sheets are NEVER "Curtains." Fix any mismatches before returning.
 
-Return actual product names, prices, and URLs. Return exactly ${categories.length} recommendations, one per selected category.`;
+Return actual product names, prices, and URLs (or empty strings). Return at least ${categories.length} recommendations (one per selected category), plus any additional items the user specifically requested in their notes that don't fit the selected categories.`;
 
       const content = [];
       if (photo) {
@@ -688,10 +1085,17 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
           ? "\n\nI've attached a photo of this room. This room will be EMPTIED. Analyze the fixed elements only — wall colors, flooring, windows, layout, architectural features — and design the full room from scratch. Ignore any existing furniture."
           : "\n\nI've attached a photo of this room AS IT CURRENTLY EXISTS. Analyze what you see — wall colors, flooring, existing furniture, layout. The user wants to IMPROVE this room, not start over. Only recommend additions or swaps that elevate the space. If 'Items to Keep' are listed above, treat those as untouchable.";
       }
+      if (visionImage) {
+        content.push({ type: "image", source: { type: "base64", media_type: "image/jpeg", data: visionImage } });
+        msg += "\n\nI've also attached an AI-generated VISION MOCKUP showing how this room could look after redesign. Use this vision as your PRIMARY GUIDE for product selection — find real, purchasable products that closely match the furniture, decor, colors, textures, and styling shown in the mockup. The vision shows the design direction; your job is to find real products that bring it to life. Match the style, colors, and feel as closely as possible.";
+      }
       content.push({ type: "text", text: msg });
 
-      const parsed = await callAI(ROOM_PROMPT, content, 3000, true);
+      const parsed = await callAI(ROOM_PROMPT, content, 4096, true);
       parsed.name = roomName;
+      if (parsed.recommendations) {
+        parsed.recommendations = validateAndFixCategories(parsed.recommendations);
+      }
       setResult(parsed);
     } catch (err) {
       setError(err.message || "Failed. Try again.");
@@ -713,7 +1117,7 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
     img.src = URL.createObjectURL(file);
   };
 
-  if (loading) return <ResearchLoader text={`Designing your ${roomName}...`} />;
+  if (loading) return <ResearchLoader text={visionImage ? `Matching products to your ${roomName} vision...` : `Designing your ${roomName}...`} />;
 
   if (result) {
     const pColors = { 1: "#dc2626", 2: "#d97706", 3: "#2563eb", 4: "#059669" };
@@ -729,6 +1133,27 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
             </div>
             <p style={{ fontSize: 14, color: "#6b7280", margin: 0, lineHeight: 1.5 }}>{stripCites(result.priorityReason)}</p>
           </div>
+
+          {/* Vision Before/After in results */}
+          {photo && visionImage && (
+            <div style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(124,58,237,0.12)", marginBottom: 16, boxShadow: "0 2px 12px rgba(124,58,237,0.06)" }}>
+              <div style={{ padding: "8px 14px", background: "linear-gradient(135deg, #faf5ff, #f3e8ff)", display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ fontSize: 14 }}>🪄</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "#6d28d9", textTransform: "uppercase", letterSpacing: "0.06em" }}>Your Room Vision</span>
+                <span style={{ fontSize: 11, color: "#8b5cf6", marginLeft: "auto" }}>Products below match this vision</span>
+              </div>
+              <div style={{ display: "flex", gap: 0 }}>
+                <div style={{ flex: 1, position: "relative" }}>
+                  <img src={photo.url} alt="Current" style={{ width: "100%", height: 180, objectFit: "cover", display: "block" }} />
+                  <span style={{ position: "absolute", bottom: 6, left: 6, fontSize: 9, fontWeight: 700, color: "#fff", background: "rgba(0,0,0,0.6)", padding: "2px 8px", borderRadius: 4, textTransform: "uppercase", letterSpacing: "0.05em" }}>Current</span>
+                </div>
+                <div style={{ flex: 1, position: "relative" }}>
+                  <img src={`data:image/jpeg;base64,${visionImage}`} alt="Vision" style={{ width: "100%", height: 180, objectFit: "cover", display: "block" }} />
+                  <span style={{ position: "absolute", bottom: 6, left: 6, fontSize: 9, fontWeight: 700, color: "#fff", background: "rgba(124,58,237,0.8)", padding: "2px 8px", borderRadius: 4, textTransform: "uppercase", letterSpacing: "0.05em" }}>Vision</span>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Hero Move */}
           <div style={{ background: "linear-gradient(135deg, #0f1117, #1a1d2b, #1e1b2e)", borderRadius: 16, padding: "18px 22px", marginBottom: 16, color: "#fff", boxShadow: "0 4px 16px rgba(0,0,0,0.12)" }}>
@@ -771,9 +1196,12 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
                       </div>
                     </div>
                   </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: "#059669", fontFamily: displayFont }}>${typeof rec.price === "number" ? rec.price.toFixed(2) : rec.price}</div>
-                    {rec.quantity > 1 && <div style={{ fontSize: 11, color: "#9ca3af" }}>× {rec.quantity}</div>}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 20, fontWeight: 700, color: "#059669", fontFamily: displayFont }}>${typeof rec.price === "number" ? rec.price.toFixed(2) : rec.price}</div>
+                      {rec.quantity > 1 && <div style={{ fontSize: 11, color: "#9ca3af" }}>× {rec.quantity}</div>}
+                    </div>
+                    <button onClick={(e) => { e.stopPropagation(); setResult(prev => ({ ...prev, recommendations: prev.recommendations.filter((_, j) => j !== i) })); }} title="Remove item" style={{ width: 26, height: 26, borderRadius: 8, border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.8)", color: "#9ca3af", fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.15s", flexShrink: 0 }} onMouseEnter={e => { e.target.style.color = "#dc2626"; e.target.style.borderColor = "rgba(220,38,38,0.3)"; e.target.style.background = "#fef2f2"; }} onMouseLeave={e => { e.target.style.color = "#9ca3af"; e.target.style.borderColor = "rgba(0,0,0,0.08)"; e.target.style.background = "rgba(255,255,255,0.8)"; }}>✕</button>
                   </div>
                 </div>
 
@@ -789,12 +1217,24 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
                     </div>
                   )}
 
-                  {rec.url && (
-                    <a href={rec.url} target="_blank" rel="noopener noreferrer"
-                      style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 600, color: "#fff", background: r.color, padding: "10px 18px", borderRadius: 10, textDecoration: "none", boxShadow: "0 2px 8px rgba(0,0,0,0.12)", transition: "all 0.2s" }}>
-                      {r.icon} View on {r.name} →
-                    </a>
-                  )}
+                  {(() => {
+                    const link = getProductLink(rec);
+                    const r2 = RETAILERS[rec.retailer] || RETAILERS[detectVendor(link.url)] || RETAILERS.amazon;
+                    return (
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                        <a href={link.url} target="_blank" rel="noopener noreferrer"
+                          style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 600, color: "#fff", background: r2.color, padding: "10px 18px", borderRadius: 10, textDecoration: "none", boxShadow: "0 2px 8px rgba(0,0,0,0.12)", transition: "all 0.2s" }}>
+                          {r2.icon} {link.isDirect ? `View on ${r2.name}` : `Search on ${r2.name}`} →
+                        </a>
+                        {link.isDirect && link.searchUrl && (
+                          <a href={link.searchUrl} target="_blank" rel="noopener noreferrer"
+                            style={{ fontSize: 12, color: "#6b7280", textDecoration: "underline", paddingLeft: 2 }}>
+                            Link not working? Search instead
+                          </a>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             );
@@ -821,7 +1261,7 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
           />
 
         <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
-          <Btn primary onClick={() => onComplete(result)}>✓ Save & Next Room</Btn>
+          <Btn primary onClick={() => onComplete(result)}>✓ Save Room Design</Btn>
           <Btn onClick={() => { setResult(null); }}>🔄 Redo</Btn>
         </div>
       </div>
@@ -831,7 +1271,40 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
   return (
     <div>
       <div className="card-inner" style={{ padding: 18, marginBottom: 14 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "#d97706", textTransform: "uppercase", letterSpacing: "0.06em" }}>{propertyProfile.style}</span>
+          <span style={{ fontSize: 11, color: "#d1d5db" }}>·</span>
+          <div style={{ display: "flex", gap: 3 }}>
+            {[propertyProfile.colorPalette?.base, propertyProfile.colorPalette?.secondary, propertyProfile.colorPalette?.accent].filter(Boolean).map((c, i) => (
+              <div key={i} style={{ width: 12, height: 12, borderRadius: 3, background: c.hex, border: "1px solid rgba(0,0,0,0.08)" }} />
+            ))}
+          </div>
+        </div>
         <h3 style={{ fontSize: 20, fontWeight: 700, margin: "0 0 14px", fontFamily: displayFont }}>{roomName}</h3>
+
+        {/* Photo upload — FIRST, large and prominent */}
+        <div style={{ marginBottom: 18 }}>
+          {!photo ? (
+            <div onClick={() => fileRef.current?.click()}
+              style={{ border: "2px dashed rgba(217,119,6,0.25)", borderRadius: 16, padding: "32px 20px", textAlign: "center", cursor: "pointer", background: "linear-gradient(145deg, #fffcf7, #fef9f0)", transition: "all 0.2s" }}>
+              <div style={{ fontSize: 36, marginBottom: 8 }}>📸</div>
+              <p style={{ fontSize: 16, fontWeight: 700, color: "#111827", margin: "0 0 4px" }}>Snap or Upload a Photo</p>
+              <p style={{ fontSize: 14, color: "#6b7280", margin: "0 0 12px", lineHeight: 1.5 }}>The AI will analyze your actual room and tailor every recommendation to your space</p>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 18px", background: "linear-gradient(135deg, #e8a307, #d97706)", color: "#fff", borderRadius: 10, fontSize: 14, fontWeight: 600, boxShadow: "0 2px 8px rgba(217,119,6,0.25)" }}>
+                📷 Take Photo or Upload
+              </div>
+              <input ref={fileRef} type="file" accept="image/*" capture="environment" onChange={e => handlePhoto(e.target.files)} style={{ display: "none" }} />
+            </div>
+          ) : (
+            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+              <img src={photo.url} alt="" style={{ width: "100%", maxHeight: 280, objectFit: "cover", display: "block" }} />
+              <button onClick={() => { setPhoto(null); setVisionImage(null); }} style={{ position: "absolute", top: 8, right: 8, background: "rgba(0,0,0,0.6)", color: "#fff", border: "none", borderRadius: 8, width: 28, height: 28, fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(4px)" }}>✕</button>
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "8px 12px", background: "linear-gradient(transparent, rgba(0,0,0,0.6))" }}>
+                <span style={{ fontSize: 13, color: "#fff", fontWeight: 600 }}>✓ Photo uploaded — AI will analyze this room</span>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Design Mode Toggle */}
         <div style={{ marginBottom: 18 }}>
@@ -858,29 +1331,6 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
           </div>
         </div>
 
-        <div style={{ marginBottom: 14 }}>
-          <Label sub="Optional — the AI will analyze your actual room and tailor recommendations to what it sees">Help the AI See Your Space</Label>
-          {!photo ? (
-            <div onClick={() => fileRef.current?.click()}
-              style={{ border: "2px dashed rgba(217,119,6,0.2)", borderRadius: 14, padding: 24, textAlign: "center", cursor: "pointer", background: "linear-gradient(145deg, #fffcf7, #fef9f0)", transition: "all 0.2s" }}>
-              <div style={{ fontSize: 24, marginBottom: 4 }}>📸</div>
-              <p style={{ fontSize: 14, fontWeight: 600, color: "#111827", margin: "0 0 2px" }}>Take or upload a photo of this room</p>
-              <p style={{ fontSize: 13, color: "#9ca3af", margin: 0 }}>{designMode === "fresh" ? "AI will analyze walls, flooring, windows & layout" : "AI will see what's there and recommend targeted upgrades"}</p>
-              <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" onChange={e => handlePhoto(e.target.files)} style={{ display: "none" }} />
-            </div>
-          ) : (
-            <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", border: "1px solid #e5e7eb", maxWidth: 250 }}>
-              <img src={photo.url} alt="" style={{ width: "100%", height: 140, objectFit: "cover", display: "block" }} />
-              <button onClick={() => setPhoto(null)} style={{ position: "absolute", top: 4, right: 4, background: "rgba(0,0,0,0.6)", color: "#fff", border: "none", borderRadius: 4, width: 22, height: 22, fontSize: 11, cursor: "pointer" }}>✕</button>
-            </div>
-          )}
-        </div>
-
-        <div style={{ marginBottom: 14 }}>
-          <Label sub="Optional — helps ensure furniture fits">Room Dimensions</Label>
-          <Input value={dimensions} onChange={setDimensions} placeholder="e.g., 12x14 ft, small, L-shaped" />
-        </div>
-
         {designMode === "refresh" && (
           <div style={{ marginBottom: 14 }}>
             <Label sub="These items are OFF LIMITS — the AI won't try to replace them">Items You're Keeping</Label>
@@ -889,6 +1339,21 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
               style={{ width: "100%", padding: "9px 12px", fontSize: 15, border: "1px solid rgba(0,0,0,0.08)", borderRadius: 10, outline: "none", resize: "vertical", fontFamily: fonts, boxSizing: "border-box", background: "linear-gradient(145deg, #ffffff, #fefdfb)", boxShadow: "0 1px 2px rgba(0,0,0,0.03) inset" }} />
           </div>
         )}
+
+        <div style={{ marginBottom: 14 }}>
+          <Label sub="Optional — helps the AI match your price range for this room">Budget for This Room</Label>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {ROOM_BUDGETS.map(b => <Chip key={b} label={b} selected={roomBudget === b} onClick={() => setRoomBudget(roomBudget === b ? "" : b)} />)}
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 14 }}>
+          <Label sub="Optional — describe your ideal look or specific items you want">Describe Your Vision</Label>
+          <textarea value={roomNotes} onChange={e => setRoomNotes(e.target.value)} rows={3}
+            placeholder={"e.g., Mid-century modern vibe with a walnut accent wall, brass floor lamp, emerald green accents. I want it to feel warm and moody, like a boutique hotel."}
+            style={{ width: "100%", padding: "12px 14px", fontSize: 15, border: "1px solid rgba(0,0,0,0.08)", borderRadius: 10, outline: "none", resize: "vertical", fontFamily: fonts, boxSizing: "border-box", background: "linear-gradient(145deg, #ffffff, #fefdfb)", boxShadow: "0 1px 2px rgba(0,0,0,0.03) inset", lineHeight: 1.5 }} />
+          <p style={{ fontSize: 12, color: "#9ca3af", margin: "4px 0 0" }}>The more detail you give, the better the AI matches your style. Or leave blank and let the AI decide based on your profile.</p>
+        </div>
 
         {/* Category selector */}
         <div style={{ marginBottom: 14 }}>
@@ -916,17 +1381,89 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
           </div>
           {categories.length === 0 && <p style={{ fontSize: 12, color: "#dc2626", margin: "6px 0 0" }}>Select at least one category</p>}
         </div>
-
-        <div>
-          <Label sub="Optional">Notes for This Room</Label>
-          <Input value={roomNotes} onChange={setRoomNotes} placeholder="e.g., Bay window on east wall, already have a dresser" />
-        </div>
       </div>
 
       {error && <div style={{ background: "linear-gradient(145deg, #fef2f2, #fee2e2)", borderRadius: 12, padding: 14, border: "1px solid rgba(220,38,38,0.1)", boxShadow: "0 2px 8px rgba(220,38,38,0.04)", marginBottom: 12, textAlign: "center" }}><p style={{ fontSize: 14, color: "#dc2626", margin: 0 }}>{error}</p></div>}
 
-      <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
-        <Btn primary onClick={generate} disabled={categories.length === 0}>✨ Design This Room</Btn>
+      {/* Vision loading state */}
+      {visionLoading && (
+        <div style={{ borderRadius: 14, padding: 28, textAlign: "center", background: "linear-gradient(135deg, #1e1b2e, #2d1b69, #1e1b2e)", marginBottom: 14, border: "1px solid rgba(124,58,237,0.2)" }}>
+          <div style={{ display: "inline-block", width: 36, height: 36, border: "3px solid rgba(124,58,237,0.3)", borderTopColor: "#a78bfa", borderRadius: "50%", animation: "spin 1s linear infinite", marginBottom: 12 }} />
+          <p style={{ fontSize: 17, fontWeight: 700, color: "#e9d5ff", margin: "0 0 4px" }}>Reimagining your {roomName}...</p>
+          <p style={{ fontSize: 13, color: "#a78bfa", margin: "0 0 2px" }}>Applying {propertyProfile.style} palette + research-backed design rules</p>
+          <p style={{ fontSize: 12, color: "#7c3aed", margin: 0 }}>This takes 15–30 seconds</p>
+        </div>
+      )}
+
+      {/* Vision result — before/after */}
+      {visionImage && !loading && (
+        <div style={{ borderRadius: 16, overflow: "hidden", marginBottom: 14, border: "1px solid rgba(124,58,237,0.15)", boxShadow: "0 4px 20px rgba(124,58,237,0.08)" }}>
+          <div style={{ padding: "10px 16px", background: "linear-gradient(135deg, #1e1b2e, #2d1b69)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 18 }}>🪄</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#e9d5ff", textTransform: "uppercase", letterSpacing: "0.06em" }}>Your Room Vision</span>
+            </div>
+            <div style={{ display: "flex", gap: 6 }}>
+              <button onClick={generateVision} style={{ fontSize: 11, fontWeight: 600, color: "#c4b5fd", background: "rgba(124,58,237,0.2)", border: "1px solid rgba(124,58,237,0.3)", borderRadius: 6, padding: "4px 12px", cursor: "pointer" }}>↻ Regenerate</button>
+              <button onClick={() => setVisionImage(null)} style={{ fontSize: 11, color: "#7c3aed", background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)", borderRadius: 6, padding: "4px 8px", cursor: "pointer" }}>✕</button>
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: 0 }}>
+            <div style={{ flex: 1, position: "relative" }}>
+              <img src={photo.url} alt="Current" style={{ width: "100%", height: 200, objectFit: "cover", display: "block" }} />
+              <span style={{ position: "absolute", bottom: 8, left: 8, fontSize: 10, fontWeight: 700, color: "#fff", background: "rgba(0,0,0,0.7)", padding: "3px 10px", borderRadius: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>Current</span>
+            </div>
+            <div style={{ flex: 1, position: "relative" }}>
+              <img src={`data:image/jpeg;base64,${visionImage}`} alt="Vision" style={{ width: "100%", height: 200, objectFit: "cover", display: "block" }} />
+              <span style={{ position: "absolute", bottom: 8, left: 8, fontSize: 10, fontWeight: 700, color: "#fff", background: "linear-gradient(135deg, #7c3aed, #6d28d9)", padding: "3px 10px", borderRadius: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>Vision</span>
+            </div>
+          </div>
+          <div style={{ padding: "12px 16px", background: "linear-gradient(135deg, #faf5ff, #f3e8ff)" }}>
+            <p style={{ fontSize: 13, color: "#6d28d9", margin: "0 0 8px", fontWeight: 600 }}>Want to adjust? Tell the AI what to change:</p>
+            <div style={{ display: "flex", gap: 6 }}>
+              <input value={visionFeedback} onChange={e => setVisionFeedback(e.target.value)}
+                placeholder="e.g., Keep the piano, make ceiling taller, try a darker sofa..."
+                onKeyDown={e => { if (e.key === "Enter" && visionFeedback.trim()) generateVision(); }}
+                style={{ flex: 1, padding: "9px 12px", fontSize: 14, border: "1px solid rgba(124,58,237,0.2)", borderRadius: 8, outline: "none", fontFamily: fonts, background: "#fff" }} />
+              <button onClick={generateVision} disabled={!visionFeedback.trim() || visionLoading} style={{
+                padding: "9px 16px", fontSize: 13, fontWeight: 600, color: "#fff",
+                background: !visionFeedback.trim() ? "#d1d5db" : "linear-gradient(135deg, #7c3aed, #6d28d9)",
+                border: "none", borderRadius: 8, cursor: !visionFeedback.trim() ? "not-allowed" : "pointer",
+                whiteSpace: "nowrap", boxShadow: visionFeedback.trim() ? "0 2px 8px rgba(124,58,237,0.25)" : "none",
+              }}>↻ Refine</button>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 6 }}>
+              {["Keep furniture in same spots", "Keep the TV", "Make it bolder", "Try warmer colors"].map(s => (
+                <button key={s} onClick={() => setVisionFeedback(s)} style={{ fontSize: 11, color: "#7c3aed", background: "rgba(124,58,237,0.08)", border: "1px solid rgba(124,58,237,0.12)", borderRadius: 6, padding: "3px 8px", cursor: "pointer", fontFamily: fonts }}>{s}</button>
+              ))}
+            </div>
+            <p style={{ fontSize: 12, color: "#8b5cf6", margin: "8px 0 0", fontWeight: 500 }}>Or if you like this direction, click below to find real products →</p>
+          </div>
+        </div>
+      )}
+
+      {/* Action buttons */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "center" }}>
+        {/* Primary action: depends on state */}
+        {visionImage ? (
+          <Btn primary onClick={generate} disabled={categories.length === 0} style={{ width: "100%", maxWidth: 400 }}>🪄 Find Products to Match Vision</Btn>
+        ) : photo && !visionLoading ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%", maxWidth: 400 }}>
+            <button onClick={generateVision} disabled={visionLoading} style={{
+              width: "100%", padding: "16px 24px", fontSize: 16, fontWeight: 700, color: "#fff",
+              background: "linear-gradient(135deg, #7c3aed, #6d28d9, #5b21b6)",
+              border: "none", borderRadius: 12, cursor: "pointer", fontFamily: fonts,
+              boxShadow: "0 4px 16px rgba(124,58,237,0.35), 0 0 0 1px rgba(255,255,255,0.1) inset",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+            }}>
+              <span style={{ fontSize: 20 }}>🪄</span> Generate Room Vision First
+            </button>
+            <p style={{ fontSize: 12, color: "#7c3aed", textAlign: "center", margin: 0, lineHeight: 1.4 }}>AI will reimagine your room with your {propertyProfile.style} palette — then find real products to match</p>
+            <Btn onClick={generate} disabled={categories.length === 0} style={{ width: "100%" }}>✨ Skip Vision — Design This Room</Btn>
+          </div>
+        ) : (
+          <Btn primary onClick={generate} disabled={categories.length === 0}>✨ Design This Room</Btn>
+        )}
         <Btn onClick={onSkip}>Skip →</Btn>
       </div>
     </div>
@@ -939,12 +1476,22 @@ Return actual product names, prices, and URLs. Return exactly ${categories.lengt
    ═══════════════════════════════════════════ */
 
 function DesignerFlow({ onSendToBuilder, onBack }) {
-  const [phase, setPhase] = useState("intake");
-  const [intakeData, setIntakeData] = useState(null);
-  const [profile, setProfile] = useState(null);
-  const [designedRooms, setDesignedRooms] = useState([]);
+  // Restore saved state
+  const saved = (() => { try { return JSON.parse(localStorage.getItem("designiq_designer") || "null"); } catch { return null; } })();
+  const [phase, setPhase] = useState(saved?.phase || "intake");
+  const [intakeData, setIntakeData] = useState(saved?.intakeData || null);
+  const [profile, setProfile] = useState(saved?.profile || null);
+  const [designedRooms, setDesignedRooms] = useState(saved?.designedRooms || []);
   const [currentRoom, setCurrentRoom] = useState(null);
-  const [roomQueue, setRoomQueue] = useState([]);
+  const [roomQueue, setRoomQueue] = useState(saved?.roomQueue || []);
+
+  // Auto-save on state change
+  useEffect(() => {
+    if (phase === "intake" && !intakeData) return; // don't save empty state
+    try {
+      localStorage.setItem("designiq_designer", JSON.stringify({ phase: phase === "room-design" ? "room-select" : phase, intakeData, profile, designedRooms, roomQueue }));
+    } catch {}
+  }, [phase, intakeData, profile, designedRooms, roomQueue]);
   const [error, setError] = useState(null);
   const [customInput, setCustomInput] = useState("");
 
@@ -963,13 +1510,11 @@ function DesignerFlow({ onSendToBuilder, onBack }) {
   const generateProfile = async (data) => {
     setIntakeData(data); setPhase("profile-loading"); setError(null);
     try {
-      let msg = `Property: ${data.propertyType}, ${data.bedrooms}BR/${data.bathrooms}BA, ~${data.sqft || "?"}sqft\n`;
-      msg += `Light: ${data.naturalLight || "?"}, Features: ${(data.archFeatures || []).join(", ") || "None"}\n`;
-      msg += `Market: ${data.market || "?"}, Neighborhood: ${data.neighborhood}\n`;
-      msg += `Rate: ${data.rateRange || "?"}, Guest: ${(data.guestType || []).join(", ")}, Stay: ${data.stayLength || "?"}\n`;
-      msg += `Budget: ${data.budget}\n`;
+      let msg = `Property: ${data.bedrooms}BR/${data.bathrooms}BA\n`;
+      msg += `Neighborhood: ${data.neighborhood}\n`;
+      msg += `Guest: ${(data.guestType || []).join(", ")}\n`;
       if ((data.colorPrefs || []).length) msg += `Color preferences: ${data.colorPrefs.join(", ")}\n`;
-      if (data.existingItems) msg += `Existing: ${data.existingItems}\n`;
+      if (data.existingItems) msg += `Existing items: ${data.existingItems}\n`;
       if (data.avoidNotes) msg += `Avoid: ${data.avoidNotes}\n`;
       const parsed = await callAI(PROFILE_PROMPT, msg, 1024);
       setProfile(parsed); setRoomQueue(buildRoomList(data)); setPhase("room-select");
@@ -1025,8 +1570,8 @@ function DesignerFlow({ onSendToBuilder, onBack }) {
             currentData={profile}
             promptTemplate={REFINE_PROFILE_PROMPT}
             onUpdate={(updated) => setProfile(updated)}
-            placeholder="e.g., swap the coral for terracotta, make it warmer..."
-            examples={["Make the palette warmer", "Swap the accent for terracotta", "Try navy instead of gray", "Why this style?"]}
+            placeholder="Ask anything about your design profile or request changes..."
+            examples={["Why this style for my market?", "What would navy do to the vibe?", "Make the palette warmer", "Is this good for families?"]}
           />
 
           <div style={{ background: "linear-gradient(135deg, #0f1117 0%, #1a1d2b 40%, #1e1b2e 70%, #171420 100%)", borderRadius: 14, padding: 16, marginBottom: 14, color: "#fff" }}>
@@ -1042,34 +1587,73 @@ function DesignerFlow({ onSendToBuilder, onBack }) {
           </div>
 
           <div className="card-inner" style={{ padding: 18, marginBottom: 14 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 700, margin: "0 0 4px" }}>Design Your Rooms</h3>
-            <p style={{ fontSize: 14, color: "#6b7280", margin: "0 0 14px" }}>Tap a room to get AI recommendations with real products. Upload a photo so the AI can see your actual space.</p>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+              <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0 }}>Design Your Rooms</h3>
+              <span style={{ fontSize: 13, fontWeight: 600, color: designedRooms.length === roomQueue.length ? "#059669" : "#d97706" }}>
+                {designedRooms.length} of {roomQueue.length} done
+              </span>
+            </div>
+            <div style={{ height: 4, borderRadius: 2, background: "rgba(0,0,0,0.06)", marginBottom: 12, overflow: "hidden" }}>
+              <div style={{ height: "100%", borderRadius: 2, background: designedRooms.length === roomQueue.length ? "linear-gradient(90deg, #059669, #047857)" : "linear-gradient(90deg, #e8a307, #d97706)", width: roomQueue.length > 0 ? `${(designedRooms.length / roomQueue.length) * 100}%` : "0%", transition: "width 0.5s ease-out" }} />
+            </div>
+            <p style={{ fontSize: 14, color: "#6b7280", margin: "0 0 14px", lineHeight: 1.5 }}>
+              {designedRooms.length === 0
+                ? "Tap a room to start designing. Upload a photo of each room so the AI can see your actual space."
+                : designedRooms.length < roomQueue.length
+                  ? "Keep going! Tap any room below to design it."
+                  : "All rooms designed! Review any room or send everything to your Budget Builder below."
+              }
+            </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {roomQueue.map(name => {
+              {roomQueue.map((name, idx) => {
                 const done = designedRooms.find(r => r.name === name);
+                const isFirst = idx === 0 && designedRooms.length === 0;
                 return (
                   <button key={name} onClick={() => { setCurrentRoom(name); setPhase("room-design"); }}
-                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px", background: done ? "linear-gradient(145deg, #f0fdf4, #ecfce8)" : "linear-gradient(145deg, #ffffff, #fefdfb)", border: done ? "1px solid rgba(34,197,94,0.2)" : "1px solid rgba(0,0,0,0.06)", borderRadius: 12, cursor: "pointer", fontFamily: fonts, textAlign: "left", boxShadow: "0 1px 3px rgba(0,0,0,0.03)", transition: "all 0.2s" }}>
-                    <span style={{ fontSize: 15, fontWeight: 600 }}>{name}</span>
+                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px", background: done ? "linear-gradient(145deg, #f0fdf4, #ecfce8)" : isFirst ? "linear-gradient(145deg, #fffbeb, #fef3c7)" : "linear-gradient(145deg, #ffffff, #fefdfb)", border: done ? "1px solid rgba(34,197,94,0.2)" : isFirst ? "1px solid rgba(217,119,6,0.2)" : "1px solid rgba(0,0,0,0.06)", borderRadius: 12, cursor: "pointer", fontFamily: fonts, textAlign: "left", boxShadow: isFirst && !done ? "0 2px 8px rgba(217,119,6,0.08)" : "0 1px 3px rgba(0,0,0,0.03)", transition: "all 0.2s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ fontSize: 15, fontWeight: 600 }}>{name}</span>
+                      {isFirst && <span style={{ fontSize: 10, fontWeight: 700, color: "#d97706", background: "rgba(217,119,6,0.1)", padding: "2px 8px", borderRadius: 6, textTransform: "uppercase", letterSpacing: "0.05em" }}>Start here</span>}
+                    </div>
                     {done ? <span style={{ fontSize: 13, fontWeight: 600, color: "#059669" }}>✓ Designed</span>
                       : <span style={{ fontSize: 13, color: "#d97706", fontWeight: 600 }}>Design →</span>}
                   </button>
                 );
               })}
             </div>
-            <div style={{ marginTop: 10, display: "flex", gap: 6 }}>
-              <Input value={customInput} onChange={setCustomInput} placeholder="Add custom room (Office, Patio...)" style={{ flex: 1 }} />
-              <Btn small onClick={() => { if (customInput.trim()) { setRoomQueue(p => [...p, customInput.trim()]); setCustomInput(""); } }} disabled={!customInput.trim()}>+</Btn>
+            <div style={{ marginTop: 10 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#6b7280", marginBottom: 6 }}>Add a room:</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 8 }}>
+                {["Game Room", "Dining Room", "Office", "Patio / Outdoor", "Laundry Room"].filter(r => !roomQueue.includes(r)).map(name => (
+                  <button key={name} onClick={() => setRoomQueue(p => [...p, name])} style={{
+                    padding: "8px 14px", fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: fonts,
+                    background: "linear-gradient(145deg, #ffffff, #fefdfb)", border: "1px solid rgba(0,0,0,0.08)",
+                    borderRadius: 10, boxShadow: "0 1px 3px rgba(0,0,0,0.03)", transition: "all 0.15s",
+                  }}>+ {name}</button>
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: 6 }}>
+                <Input value={customInput} onChange={setCustomInput} placeholder="Or type a custom room name..." style={{ flex: 1 }} />
+                <Btn small onClick={() => { if (customInput.trim()) { setRoomQueue(p => [...p, customInput.trim()]); setCustomInput(""); } }} disabled={!customInput.trim()}>+</Btn>
+              </div>
             </div>
           </div>
 
           {designedRooms.length > 0 && (
-            <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
-              <Btn primary onClick={() => onSendToBuilder(intakeData, profile, designedRooms)} style={{ background: "linear-gradient(135deg, #059669, #047857)" }}>
+            <div className="card-inner" style={{ padding: 18, marginBottom: 14, background: "linear-gradient(145deg, #f0fdf4, #ecfce8)", border: "1px solid rgba(5,150,105,0.15)" }}>
+              <h4 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 4px", color: "#065f46" }}>Ready to track your purchases?</h4>
+              <p style={{ fontSize: 13, color: "#047857", margin: "0 0 12px", lineHeight: 1.5 }}>
+                The Budget Builder turns your AI recommendations into a shopping tracker — edit items, track what you've ordered, and see your total spend per room.
+              </p>
+              <Btn primary onClick={() => onSendToBuilder(intakeData, profile, designedRooms)} style={{ background: "linear-gradient(135deg, #059669, #047857)", width: "100%" }}>
                 📥 Send {designedRooms.length} Room{designedRooms.length > 1 ? "s" : ""} to Budget Builder
               </Btn>
             </div>
           )}
+
+          <div style={{ textAlign: "center", marginTop: 16 }}>
+            <button onClick={() => { if(confirm("Start over? This will clear your current design profile and room designs.")) { try { localStorage.removeItem("designiq_designer"); } catch {} setPhase("intake"); setIntakeData(null); setProfile(null); setDesignedRooms([]); setRoomQueue([]); }}} style={{ fontSize: 12, color: "#9ca3af", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>Start over with a new property</button>
+          </div>
         </div>
       )}
 
@@ -1092,8 +1676,22 @@ function DesignerFlow({ onSendToBuilder, onBack }) {
    ═══════════════════════════════════════════ */
 
 function BudgetBuilder({ initialProject, onBack }) {
-  const [projects, setProjects] = useState(initialProject ? [initialProject] : []);
+  const savedProjects = (() => { try { return JSON.parse(localStorage.getItem("designiq_projects") || "null"); } catch { return null; } })();
+  const [projects, setProjects] = useState(() => {
+    if (initialProject) {
+      const existing = savedProjects || [];
+      // Merge: add initialProject if not already there
+      if (!existing.find(p => p.id === initialProject.id)) return [initialProject, ...existing];
+      return existing.map(p => p.id === initialProject.id ? initialProject : p);
+    }
+    return savedProjects || [];
+  });
   const [activeId, setActiveId] = useState(initialProject?.id || null);
+
+  // Auto-save projects
+  useEffect(() => {
+    try { localStorage.setItem("designiq_projects", JSON.stringify(projects)); } catch {}
+  }, [projects]);
   const [showNew, setShowNew] = useState(!initialProject);
   const [newAddr, setNewAddr] = useState(""); const [newBeds, setNewBeds] = useState(""); const [newBaths, setNewBaths] = useState("");
   const [toast, setToast] = useState(null);
@@ -1112,7 +1710,7 @@ function BudgetBuilder({ initialProject, onBack }) {
   const updateItem = (rid, iid, f, v) => updateProject(p => ({ ...p, rooms: p.rooms.map(r => r.id === rid ? { ...r, items: r.items.map(it => { if (it.id !== iid) return it; const u = { ...it, [f]: v }; if (f === "url") u.vendor = detectVendor(v); return u; }) } : r) }));
   const removeItem = (rid, iid) => updateProject(p => ({ ...p, rooms: p.rooms.map(r => r.id === rid ? { ...r, items: r.items.filter(it => it.id !== iid) } : r) }));
   const cycleStatus = (rid, iid) => updateProject(p => ({ ...p, rooms: p.rooms.map(r => r.id === rid ? { ...r, items: r.items.map(it => it.id === iid ? { ...it, status: STATUS_CYCLE[(STATUS_CYCLE.indexOf(it.status)+1)%STATUS_CYCLE.length] } : it) } : r) }));
-  const getClickUrl = (item) => { if (item.affiliateUrl) return item.affiliateUrl; if (item.vendor==="amazon"&&amazonTag&&item.url) return `${item.url}${item.url.includes("?")?"&":"?"}tag=${amazonTag}`; return item.url; };
+  const getClickUrl = (item) => { if (item.affiliateUrl) return item.affiliateUrl; if (item.vendor==="amazon"&&amazonTag&&item.url) return `${cleanUrl(item.url)}${cleanUrl(item.url).includes("?")?"&":"?"}tag=${amazonTag}`; if (item.url && isRealUrl(item.url)) return cleanUrl(item.url); return buildSearchUrl(item.searchQuery || item.name, item.vendor || "amazon"); };
   const roomTotal = (room) => room.items.reduce((s, it) => s + it.quantity * it.price, 0);
   const projectTotal = active ? active.rooms.reduce((s, r) => s + roomTotal(r), 0) : 0;
 
@@ -1152,6 +1750,12 @@ function BudgetBuilder({ initialProject, onBack }) {
 
           {showSettings && adminUnlocked && <div style={{ background: "#f9fafb", borderRadius: 10, padding: 14, border: "1px solid #e5e7eb", marginBottom: 14 }}><Label>Amazon Tag</Label><Input value={amazonTag} onChange={setAmazonTag} placeholder="your-tag-20" /></div>}
 
+          <div style={{ background: "linear-gradient(145deg, #fffbeb, #fef3c7)", borderRadius: 12, padding: "12px 16px", border: "1px solid rgba(217,119,6,0.1)", marginBottom: 14 }}>
+            <p style={{ fontSize: 13, color: "#92400e", margin: 0, lineHeight: 1.6 }}>
+              <strong>Your shopping tracker.</strong> Each room has the AI-recommended products with links. Tap the <strong style={{ background: "#f3f4f6", padding: "1px 6px", borderRadius: 6 }}>planned ▸</strong> badge on any item to track its status as you order and receive it. Export everything as a CSV when you're ready.
+            </p>
+          </div>
+
           <div style={{ background: "linear-gradient(135deg, #0f1117 0%, #1a1d2b 40%, #1e1b2e 70%, #171420 100%)", borderRadius: 14, padding: 16, marginBottom: 14, color: "#fff", textAlign: "center" }}>
             <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#94a3b8" }}>Total Staging Budget</div>
             <div style={{ fontSize: 26, fontWeight: 700, fontFamily: displayFont, color: "#fbbf24" }}>{fmt(projectTotal)}</div>
@@ -1189,8 +1793,8 @@ function BudgetBuilder({ initialProject, onBack }) {
                           <div style={{ display: "flex", alignItems: "center", gap: 2 }}><span style={{ fontSize: 12, color: "#6b7280" }}>Qty:</span><input type="number" value={item.quantity} onChange={e => updateItem(room.id, item.id, "quantity", parseInt(e.target.value)||1)} min={1} style={{ width: 40, padding: "3px 4px", fontSize: 14, border: "1px solid #e5e7eb", borderRadius: 4, textAlign: "center", outline: "none" }} /></div>
                           <div style={{ display: "flex", alignItems: "center", gap: 2 }}><span style={{ fontSize: 12, color: "#6b7280" }}>$</span><input value={(item.price/100).toFixed(2)} onChange={e => updateItem(room.id, item.id, "price", parseCents(e.target.value))} style={{ width: 60, padding: "3px 4px", fontSize: 14, border: "1px solid #e5e7eb", borderRadius: 4, textAlign: "right", outline: "none" }} /></div>
                           <span style={{ fontSize: 13, fontWeight: 600, color: "#059669" }}>{fmt(item.quantity*item.price)}</span>
-                          <button onClick={() => cycleStatus(room.id, item.id)} style={{ fontSize: 12, fontWeight: 600, color: sc.text, background: sc.bg, padding: "2px 8px", borderRadius: 10, border: "none", cursor: "pointer", textTransform: "capitalize" }}>{item.status}</button>
-                          {item.url && <a href={getClickUrl(item)} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#2563eb", textDecoration: "none" }}>🔗</a>}
+                          <button onClick={() => cycleStatus(room.id, item.id)} title="Tap to update status" style={{ fontSize: 12, fontWeight: 600, color: sc.text, background: sc.bg, padding: "2px 10px", borderRadius: 10, border: `1px dashed ${sc.text}40`, cursor: "pointer", textTransform: "capitalize", display: "inline-flex", alignItems: "center", gap: 3 }}>{item.status} <span style={{ fontSize: 9, opacity: 0.6 }}>▸</span></button>
+                          <a href={getClickUrl(item)} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, fontWeight: 600, color: "#fff", background: (RETAILERS[item.vendor] || RETAILERS.amazon).color, padding: "3px 10px", borderRadius: 6, textDecoration: "none", whiteSpace: "nowrap" }}>{item.isSearchLink || !item.url || !isRealUrl(item.url) ? "Search" : "View"} ↗</a>
                           <button onClick={() => removeItem(room.id, item.id)} style={{ fontSize: 12, color: "#dc2626", background: "none", border: "none", cursor: "pointer", marginLeft: "auto" }}>✕</button>
                         </div>
                         {adminUnlocked && item.vendor !== "amazon" && <input value={item.affiliateUrl||""} onChange={e => updateItem(room.id, item.id, "affiliateUrl", e.target.value)} placeholder="Affiliate URL" style={{ width: "100%", marginTop: 4, padding: "4px 8px", fontSize: 10, border: "1px solid #e5e7eb", borderRadius: 4, outline: "none", color: "#7c3aed" }} />}
@@ -1232,17 +1836,22 @@ function DesignIQ() {
 
   const handleDesignComplete = (intakeData, profile, designedRooms) => {
     const project = {
-      id: uid(), address: intakeData.market || "New Property",
+      id: uid(), address: intakeData.neighborhood || "New Property",
       beds: parseInt(intakeData.bedrooms)||0, baths: parseInt(intakeData.bathrooms)||0,
       rooms: designedRooms.map(room => ({
         id: uid(), name: room.name, expanded: false,
-        items: room.recommendations?.map(rec => ({
-          id: uid(), name: rec.item, url: rec.url || "",
-          quantity: rec.quantity || 1,
-          price: Math.round((typeof rec.price === "number" ? rec.price : parseFloat(rec.price) || 0) * 100),
-          vendor: rec.retailer || detectVendor(rec.url) || "other",
-          status: "planned", affiliateUrl: "", notes: rec.researchBasis || "",
-        })) || [],
+        items: room.recommendations?.map(rec => {
+          const link = getProductLink(rec);
+          return {
+            id: uid(), name: rec.item, url: link.isDirect ? rec.url : link.url,
+            quantity: rec.quantity || 1,
+            price: Math.round((typeof rec.price === "number" ? rec.price : parseFloat(rec.price) || 0) * 100),
+            vendor: rec.retailer || detectVendor(rec.url) || "amazon",
+            status: "planned", affiliateUrl: "", notes: rec.researchBasis || "",
+            searchQuery: rec.searchQuery || rec.item,
+            isSearchLink: !link.isDirect,
+          };
+        }) || [],
       })),
       createdAt: new Date().toISOString(),
     };
@@ -1254,11 +1863,15 @@ function DesignIQ() {
       <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet" />
       <style>{`@keyframes spin{to{transform:rotate(360deg)}} *{box-sizing:border-box}`}</style>
 
+      <div style={{ padding: "6px 16px", background: "rgba(0,0,0,0.03)", borderBottom: "1px solid rgba(0,0,0,0.04)", textAlign: "center" }}>
+        <p style={{ fontSize: 11, color: "#9ca3af", margin: 0, lineHeight: 1.4 }}>This tool is powered by AI. Responses are generated by Claude and should be reviewed before making business decisions.</p>
+      </div>
+
       <div className="header-premium" style={{ padding: "28px 20px 22px", textAlign: "center", position: "relative" }}>
         <h1 onClick={() => { const n = adminTaps + 1; setAdminTaps(n); if (n >= 5) setAdminTaps(0); }}
           style={{ fontSize: 28, fontWeight: 700, color: "#fff", margin: "0 0 6px", fontFamily: displayFont, cursor: "default", letterSpacing: "-0.02em" }}>Design <span style={{ color: "#f5c542" }}>IQ</span></h1>
         <p style={{ fontSize: 13, color: "#b8b5ae", margin: "0 0 10px", letterSpacing: "0.01em" }}>
-          {view === "home" ? "AI-powered design + staging budgets for short-term rentals" : view === "designer" ? "AI-powered design for short-term rentals" : "Room-by-room staging budget tracker"}
+          {view === "home" ? "Research-backed, AI-powered design that turns listings into bookings" : view === "designer" ? "Research-backed, AI-powered design for short-term rentals" : "Room-by-room staging budget tracker"}
         </p>
         <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.08em", color: "#6b7280" }}>
           Part of the <span style={{ color: "#9ca3af" }}>Operator OS Suite</span>
