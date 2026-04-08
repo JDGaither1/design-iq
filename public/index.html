@@ -1293,7 +1293,7 @@ Return actual product names, prices, and URLs (or empty strings). Return at leas
               <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 18px", background: "linear-gradient(135deg, #e8a307, #d97706)", color: "#fff", borderRadius: 10, fontSize: 14, fontWeight: 600, boxShadow: "0 2px 8px rgba(217,119,6,0.25)" }}>
                 📷 Take Photo or Upload
               </div>
-              <input ref={fileRef} type="file" accept="image/*" capture="environment" onChange={e => handlePhoto(e.target.files)} style={{ display: "none" }} />
+              <input ref={fileRef} type="file" accept="image/*" onChange={e => handlePhoto(e.target.files)} style={{ display: "none" }} />
             </div>
           ) : (
             <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
